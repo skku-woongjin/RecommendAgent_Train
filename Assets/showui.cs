@@ -10,6 +10,7 @@ public class showui : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            canv.transform.rotation = Quaternion.Inverse(other.transform.rotation);
             canv.SetActive(true);
         }
     }

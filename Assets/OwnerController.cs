@@ -30,22 +30,6 @@ public class OwnerController : MonoBehaviour
         navPath = new NavMeshPath();
     }
 
-    void Update()
-    {
-        if (nav.destination != null)
-            nav.CalculatePath(nav.destination, navPath);
-        int i = 1;
-        while (i < navPath.corners.Length)
-        {
-            if (Vector3.Distance(transform.position, navPath.corners[i]) > 0.5f)
-            {
-                direction = navPath.corners[i] - transform.position;
-                break;
-            }
-            i++;
-        }
-
-    }
 
     void FixedUpdate()
     {
@@ -73,7 +57,7 @@ public class OwnerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position += bound.forward * speed * -0.5f;
+            rb.AddForce(-bound.forward * speed, ForceMode.VelocityChange);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
