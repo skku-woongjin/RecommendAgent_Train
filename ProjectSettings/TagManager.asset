@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - agent
+  - ground
+  - target
+  - wall
+  - key
+  - portal
+  - dragon
+  - lock
+  - food
+  - badFood
+  - frozenAgent
+  - ex
+  - plus
+  - bound
+  - aibound
+  - aibound2
+  - symbol_X_Goal
+  - symbol_O_Goal
+  - symbol_O
+  - symbol_X
+  - goal
+  - block
+  - ball
+  - purpleAgent
+  - blueAgent
+  - blueGoal
+  - purpleGoal
+  - switchOff
+  - pyramid
+  - stone
+  - Obstacle
+  - tile
+  - walkableSurface
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Agent
+  - Water
+  - UI
+  - ground
+  - bound
+  - player
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
