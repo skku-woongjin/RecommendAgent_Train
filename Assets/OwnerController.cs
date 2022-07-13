@@ -30,7 +30,6 @@ public class OwnerController : MonoBehaviour
         navPath = new NavMeshPath();
     }
 
-
     void FixedUpdate()
     {
         // if (randomMovement)
@@ -71,8 +70,17 @@ public class OwnerController : MonoBehaviour
         {
             rb.velocity *= 0.9f;
         }
+
+
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
+        }
+    }
     IEnumerator changedir()
     {
         while (true)

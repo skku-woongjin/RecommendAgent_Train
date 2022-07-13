@@ -25,6 +25,10 @@ public class catAnim : MonoBehaviour
         {
             anim.SetFloat("speed", 1f);
         }
+        if (tr.GetComponent<IdleAgent>().state == IdleAgent.States.outbound)
+        {
+            anim.SetFloat("speed", 3f);
+        }
 
         anim.SetBool("Stopping", stopping);
         // Debug.Log(anim.GetFloat("turnSpd"));

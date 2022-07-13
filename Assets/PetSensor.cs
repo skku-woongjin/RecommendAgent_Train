@@ -13,7 +13,7 @@ public class PetSensor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = agent.transform.position + Vector3.forward * 0.15f;
+        transform.position = agent.transform.position + Vector3.forward * 0.3f;
         transform.rotation = agent.transform.rotation;
     }
     private void OnTriggerEnter(Collider other)
