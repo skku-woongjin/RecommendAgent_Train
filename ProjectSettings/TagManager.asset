@@ -37,6 +37,7 @@ TagManager:
   - Obstacle
   - tile
   - walkableSurface
+  - Sphere
   layers:
   - Default
   - TransparentFX

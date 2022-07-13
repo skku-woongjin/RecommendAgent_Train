@@ -5,6 +5,8 @@ using UnityEngine;
 public class JoinGroup : MonoBehaviour
 {
     public Transform pet;
+
+    public Transform T;
     public void join(Transform t)
     {
         transform.SetParent(t.parent);
