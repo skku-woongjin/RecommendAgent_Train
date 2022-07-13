@@ -266,6 +266,12 @@ public class IdleAgent : Agent
         {
             colliding = true;
 
+            if (collision.collider.CompareTag("Player"))
+            {
+                state = States.avoid;
+                ObstAgent(collision.transform);
+            }
+
             if (state != States.avoid && state != States.outbound)
             {
                 ObstAgent(collision.transform);

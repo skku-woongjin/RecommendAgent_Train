@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class showui : MonoBehaviour
 {
-    public GameObject canv;
+    public GameObject ButtonCanv;
+    public GameObject UdangCanv;
 
-    private void OnTriggerEnter(Collider other)
+    public GameObject sphere;
+
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            canv.transform.rotation = other.transform.rotation;
-            canv.SetActive(true);
+            ButtonCanv.transform.rotation = Quaternion.LookRotation(ButtonCanv.transform.position - other.transform.GetComponentInChildren<Camera>().transform.position);
+            ButtonCanv.SetActive(true);
+            if (!sphere.activeSelf)
+            {
+                sphere.SetActive(true);
+            }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            canv.SetActive(false);
+            ButtonCanv.SetActive(false);
         }
     }
     // Start is called before the first frame update
