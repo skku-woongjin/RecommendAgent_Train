@@ -5718,7 +5718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1009000884
 Transform:
   m_ObjectHideFlags: 0
@@ -7532,6 +7532,7 @@ GameObject:
   - component: {fileID: 1676780125}
   - component: {fileID: 1676780127}
   - component: {fileID: 1676780128}
+  - component: {fileID: 1676780129}
   m_Layer: 0
   m_Name: BadGroup
   m_TagString: Untagged
@@ -7603,6 +7604,10 @@ MonoBehaviour:
   UDangTangMat: {fileID: 2100000, guid: 2b7b7b7623acd4d00a41275b4594651f, type: 2}
   CommonMat: {fileID: 2100000, guid: ecd59def9213741058b969f699d10e8e, type: 2}
   Sphere: {fileID: 1724908954}
+  Users:
+  - {fileID: 1911317745}
+  - {fileID: 134117113}
+  - {fileID: 819044469}
 --- !u!114 &1676780128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7613,6 +7618,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d94a479d1f00d47889d0dd7638b5b23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1676780129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676780123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5fe0a5219764a6a81a7fba77a7403e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1723528825
@@ -8064,7 +8081,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764351713}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5000001
   m_Speed: 3
@@ -8096,7 +8113,7 @@ MonoBehaviour:
   bound: {fileID: 1764351714}
   dest: {fileID: 181508126}
   rb: {fileID: 1764351717}
-  randomMovement: 1
+  randomMovement: 0
 --- !u!114 &1764351721
 MonoBehaviour:
   m_ObjectHideFlags: 0

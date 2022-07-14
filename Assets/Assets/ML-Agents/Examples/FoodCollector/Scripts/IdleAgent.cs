@@ -385,6 +385,21 @@ public class IdleAgent : Agent
         state = States.say;
     }
 
+    public void endSay()
+    {
+        state = States.rand;
+        obstacle = null;
+        if (interested)
+        {
+            interest();
+        }
+        if (!inbound)
+        {
+            BoundAgent();
+        }
+        setMat();
+    }
+
     #region boundAgent
 
     void BoundAgent()

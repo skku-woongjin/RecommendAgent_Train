@@ -10,7 +10,6 @@ public class SaySomething : MonoBehaviour
 
     void Start()
     {
-        say("테스트");
     }
     public void say(string line)
     {

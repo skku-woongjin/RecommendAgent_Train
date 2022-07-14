@@ -9,12 +9,6 @@ public class ConvGroup : MonoBehaviour
     public GameObject Sphere;
     public GameObject[] Users;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     public void hideSphere()
     {
         StartCoroutine("hideSphereCoroutine");
@@ -24,6 +18,14 @@ public class ConvGroup : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1);
         Sphere.SetActive(false);
+    }
+
+    public void join()
+    {
+        foreach (GameObject u in Users)
+        {
+            u.GetComponent<SaySomething>().say("안녕");
+        }
     }
 
     // Update is called once per frame
