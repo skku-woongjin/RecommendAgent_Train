@@ -13,6 +13,7 @@ public class showui : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GameManager.Instance.curGroup = GetComponent<ConvGroup>();
             ButtonCanv.transform.rotation = Quaternion.LookRotation(ButtonCanv.transform.position - other.transform.GetComponentInChildren<Camera>().transform.position);
             ButtonCanv.SetActive(true);
             if (!sphere.activeSelf)

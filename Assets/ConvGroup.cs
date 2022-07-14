@@ -7,6 +7,7 @@ public class ConvGroup : MonoBehaviour
     public Material UDangTangMat;
     public Material CommonMat;
     public GameObject Sphere;
+    public GameObject[] Users;
 
     // Start is called before the first frame update
     void Start()

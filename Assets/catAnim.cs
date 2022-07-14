@@ -31,6 +31,7 @@ public class catAnim : MonoBehaviour
         }
 
         anim.SetBool("Stopping", stopping);
+        anim.SetBool("Say", tr.GetComponent<IdleAgent>().state == IdleAgent.States.say);
         // Debug.Log(anim.GetFloat("turnSpd"));
 
         lastRot = tr.rotation;

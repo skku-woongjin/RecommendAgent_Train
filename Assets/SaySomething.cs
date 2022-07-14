@@ -6,6 +6,7 @@ using TMPro;
 public class SaySomething : MonoBehaviour
 {
     public GameObject bubble;
+    public Transform camTransform;
 
     void Start()
     {
@@ -14,7 +15,7 @@ public class SaySomething : MonoBehaviour
     public void say(string line)
     {
         bubble.GetComponentInChildren<TMP_Text>().text = line;
-        bubble.transform.rotation = Quaternion.LookRotation(bubble.transform.position - transform.GetComponentInChildren<Camera>().transform.position);
+        bubble.transform.rotation = Quaternion.LookRotation(bubble.transform.position - camTransform.position);
         bubble.SetActive(true);
     }
 

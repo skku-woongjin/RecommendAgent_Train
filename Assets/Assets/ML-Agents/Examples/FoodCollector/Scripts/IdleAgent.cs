@@ -22,7 +22,8 @@ public class IdleAgent : Agent
         stop,
         bound,
         avoid,
-        outbound
+        outbound,
+        say
     }
 
     public States state;
@@ -192,7 +193,8 @@ public class IdleAgent : Agent
         }
         else
         {
-            m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 2.4f, ForceMode.VelocityChange);
+            if (state != States.stop && state != States.say)
+                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 2.4f, ForceMode.VelocityChange);
         }
         // if (boundAgent)
         // {
@@ -373,6 +375,16 @@ public class IdleAgent : Agent
 
     #endregion
 
+    public GameObject QuoteCanv;
+    public void say()
+    {
+        stopStart();
+        QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
+        QuoteCanv.SetActive(true);
+
+        state = States.say;
+    }
+
     #region boundAgent
 
     void BoundAgent()
@@ -404,6 +416,7 @@ public class IdleAgent : Agent
     #region outboundAgent
     void OutBoundAgent()
     {
+        if (state == States.say) return;
         if (state == States.stop || decel)
         {
             stopEnd();
@@ -416,13 +429,13 @@ public class IdleAgent : Agent
 
 
     #endregion
-    //NOTE Aviod
+    //NOTE Avoid
     #region avoid 
 
     public Transform obstacle;
     public void ObstAgent(Transform obs)
     {
-        if (state == States.outbound)
+        if (state == States.outbound || state == States.say)
         {
             return;
         }
@@ -471,7 +484,7 @@ public class IdleAgent : Agent
         }
         RequestAction();
 
-        if (state != States.outbound && Vector3.SqrMagnitude(owner.position - transform.position) > 100)
+        if (state != States.outbound && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 100)
         {
             OutBoundAgent();
         }
