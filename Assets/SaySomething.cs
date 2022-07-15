@@ -14,14 +14,23 @@ public class SaySomething : MonoBehaviour
     void Start()
     {
         bubbleImg = bubble.GetComponentInChildren<Image>();
-        say("개새끼");
     }
     public void say(string line)
     {
-        bubble.GetComponentInChildren<TMP_Text>().text = line;
-        GetComponent<request>().sendReq(line);
-        bubble.SetActive(true);
-        StartCoroutine("fadeout");
+        bubble.SetActive(false);
+        StartCoroutine(GameManager.Instance.req.Upload((returnval) =>
+        {
+            if (returnval)
+            {
+                bubble.GetComponentInChildren<TMP_Text>().text = "(욕설)";
+            }
+            else
+            {
+                bubble.GetComponentInChildren<TMP_Text>().text = line;
+            }
+            bubble.SetActive(true);
+            StartCoroutine("fadeout");
+        }, line));
     }
 
     private void Update()

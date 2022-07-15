@@ -8,14 +8,10 @@ public class Chat
 }
 public class request : MonoBehaviour
 {
+    public bool ishate = false;
     void Start()
     {
 
-    }
-
-    public void sendReq(string line)
-    {
-        StartCoroutine(Upload(line));
     }
 
     // IEnumerator getRequest(string uri)
@@ -32,7 +28,7 @@ public class request : MonoBehaviour
     //     }
     // }
 
-    IEnumerator Upload(string line)
+    public IEnumerator Upload(System.Action<bool> callback, string line)
     {
         Chat body = new Chat();
         body.chat = line;
@@ -54,7 +50,17 @@ public class request : MonoBehaviour
         }
         else
         {
-            Debug.Log("Received: " + req.downloadHandler.text);
+            Debug.Log(req.downloadHandler.text);
+            string res = req.downloadHandler.text;
+            if (res.Contains("hate"))
+            {
+                ishate = true;
+            }
+            else
+            {
+                ishate = false;
+            }
+            callback(ishate);
         }
     }
 }
