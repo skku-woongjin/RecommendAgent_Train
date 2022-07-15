@@ -10,27 +10,32 @@ public class request : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(Upload());
+
     }
 
-    IEnumerator getRequest(string uri)
+    public void sendReq(string line)
     {
-        UnityWebRequest uwr = UnityWebRequest.Get(uri);
-        yield return uwr.SendWebRequest();
-        if (uwr.result == UnityWebRequest.Result.ConnectionError)
-        {
-            Debug.Log("Error While Sending: " + uwr.error);
-        }
-        else
-        {
-            Debug.Log("Received: " + uwr.downloadHandler.text);
-        }
+        StartCoroutine(Upload(line));
     }
 
-    IEnumerator Upload()
+    // IEnumerator getRequest(string uri)
+    // {
+    //     UnityWebRequest uwr = UnityWebRequest.Get(uri);
+    //     yield return uwr.SendWebRequest();
+    //     if (uwr.result == UnityWebRequest.Result.ConnectionError)
+    //     {
+    //         Debug.Log("Error While Sending: " + uwr.error);
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("Received: " + uwr.downloadHandler.text);
+    //     }
+    // }
+
+    IEnumerator Upload(string line)
     {
         Chat body = new Chat();
-        body.chat = "씨발";
+        body.chat = line;
         string bodyData = JsonUtility.ToJson(body);
         Debug.Log(bodyData);
         // var postData = System.Text.Encoding.UTF8.GetBytes(bodyData);
