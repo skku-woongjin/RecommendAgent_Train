@@ -8,6 +8,7 @@ public class SaySomething : MonoBehaviour
 {
     public GameObject bubble;
     public Transform camTransform;
+    public bool censor;
 
     Image bubbleImg;
 
@@ -18,19 +19,28 @@ public class SaySomething : MonoBehaviour
     public void say(string line)
     {
         bubble.SetActive(false);
-        StartCoroutine(GameManager.Instance.req.Upload((returnval) =>
+        if (censor)
         {
-            if (returnval)
+            StartCoroutine(GameManager.Instance.req.Upload((returnval) =>
             {
-                bubble.GetComponentInChildren<TMP_Text>().text = "(욕설)";
-            }
-            else
-            {
-                bubble.GetComponentInChildren<TMP_Text>().text = line;
-            }
+                if (returnval)
+                {
+                    bubble.GetComponentInChildren<TMP_Text>().text = "(욕설)";
+                }
+                else
+                {
+                    bubble.GetComponentInChildren<TMP_Text>().text = line;
+                }
+                bubble.SetActive(true);
+                StartCoroutine("fadeout");
+            }, line));
+        }
+        else
+        {
+            bubble.GetComponentInChildren<TMP_Text>().text = line;
             bubble.SetActive(true);
             StartCoroutine("fadeout");
-        }, line));
+        }
     }
 
     private void Update()

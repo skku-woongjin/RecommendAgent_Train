@@ -27,7 +27,7 @@ public class catAnim : MonoBehaviour
         }
         if (tr.GetComponent<IdleAgent>().state == IdleAgent.States.outbound)
         {
-            anim.SetFloat("speed", 3f);
+            anim.SetFloat("speed", 5f);
         }
 
         anim.SetBool("Stopping", stopping);

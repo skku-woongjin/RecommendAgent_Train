@@ -274,7 +274,7 @@ public class IdleAgent : Agent
                 ObstAgent(collision.transform);
             }
 
-            if (state != States.avoid && state != States.outbound)
+            if (state != States.avoid && state != States.outbound && state != States.inte)
             {
                 ObstAgent(collision.transform);
             }
