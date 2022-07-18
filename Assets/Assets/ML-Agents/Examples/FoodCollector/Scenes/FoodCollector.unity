@@ -8694,6 +8694,7 @@ GameObject:
   - component: {fileID: 1524518608}
   - component: {fileID: 1524518609}
   - component: {fileID: 1524518610}
+  - component: {fileID: 1524518611}
   m_Layer: 0
   m_Name: won
   m_TagString: Untagged
@@ -8780,7 +8781,9 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.72
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!1001 &1530057066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8838,6 +8841,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6031cb0dc0ccc04e92feef60c7941fe, type: 3}
+=======
+--- !u!114 &1524518611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524518607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea8160b9aea24a79bfd37e4b2046196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sphere: {fileID: 1632851423}
+>>>>>>> Stashed changes
 --- !u!1 &1632851423
 GameObject:
   m_ObjectHideFlags: 0
