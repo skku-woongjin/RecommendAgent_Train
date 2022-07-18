@@ -14,6 +14,7 @@ public class SaySomething : MonoBehaviour
 
     void Start()
     {
+        camTransform = GameManager.Instance.cam;
         bubbleImg = bubble.GetComponentInChildren<Image>();
     }
     public void say(string line)
