@@ -46,7 +46,7 @@ public class OwnerController : MonoBehaviour
         // }
         // if (nav.destination != null)
         //     nav.CalculatePath(nav.destination, navPath);
-        if (GameManager.Instance.idleAgent.state != IdleAgent.States.say)
+        if (GameManager.Instance.ingroup || GameManager.Instance.idleAgent.state != IdleAgent.States.say)
         {
             // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
             //dash
@@ -90,17 +90,20 @@ public class OwnerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (GameManager.Instance.ingroup || GameManager.Instance.idleAgent.state != IdleAgent.States.say)
         {
-            rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
+            }
         }
     }
     IEnumerator changedir()

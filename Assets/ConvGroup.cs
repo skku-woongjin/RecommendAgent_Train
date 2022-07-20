@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ConvGroup : MonoBehaviour
 {
+    public bool isbad;
     public Material UDangTangMat;
     public Material CommonMat;
     public GameObject Sphere;
