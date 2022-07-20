@@ -5,37 +5,36 @@ using UnityEditor;
 
 
 
-[CustomEditor(typeof(SaySomething))]
-public class chatEditor : Editor
-{
+[CustomEditor(typeof(ChatManager))]
+public class chatEditor : Editor {
 
+    ChatManager chatManager; 
     string text;
-
-    SaySomething saysmth = null;
-
-    void OnEnable()
-    {
-        saysmth = (SaySomething)target;
+    void OnEnable() {
+        chatManager=target as ChatManager;
     }
-
-    public override void OnInspectorGUI()
-    {
+    public override void OnInspectorGUI() {
         base.OnInspectorGUI();
         EditorGUILayout.BeginHorizontal();
-        text = EditorGUILayout.TextArea(text);
-
-        if (GUILayout.Button("보내기", GUILayout.Width(60)) && text.Trim() != "")
-        {
-            saysmth.say(text);
-            text = "";
+        text=EditorGUILayout.TextArea(text);
+        
+        if(GUILayout.Button("보내기",GUILayout.Width(60)) && text.Trim()!=""){
+            chatManager.Chat(true,text,"나");
+            text="";
+            GUI.FocusControl(null); 
+        }
+        if(GUILayout.Button("받기",GUILayout.Width(60)) && text.Trim()!=""){
+            chatManager.Chat(false,text,"타인");
+            text="";
             GUI.FocusControl(null);
         }
         EditorGUILayout.EndHorizontal();
 
+        
     }
 }
 
-
-
-
+    
+    
+   
 

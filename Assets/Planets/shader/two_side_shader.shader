@@ -363,5 +363,5 @@ Shader "Almgp/two_side_shader" {
         }
     }
     FallBack "Diffuse"
-    CustomEditor "ShaderForgeMaterialInspector"
+    // CustomEditor "ShaderForgeMaterialInspector"
 }
