@@ -48,7 +48,20 @@ public class OwnerController : MonoBehaviour
         //     nav.CalculatePath(nav.destination, navPath);
 
         // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
+        //dash
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            rb.AddForce(-bound.forward * speed * 10, ForceMode.VelocityChange);
+            
+            // transform.position += transform.forward * speed * 0.5f;
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            rb.AddForce(bound.forward * speed * 10, ForceMode.VelocityChange);
 
+            // transform.position += transform.forward * speed * 0.5f;
+        }
+        //move
         if (Input.GetKey(KeyCode.UpArrow))
         {
             rb.AddForce(bound.forward * speed, ForceMode.VelocityChange);
@@ -79,6 +92,14 @@ public class OwnerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
         }
     }
     IEnumerator changedir()
