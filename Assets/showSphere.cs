@@ -29,6 +29,7 @@ public class showSphere : MonoBehaviour
         {
             Sphere.SetActive(true);
             Physics.IgnoreCollision(transform.parent.GetComponent<Collider>(), GameManager.Instance.owner.GetComponent<Collider>(), false);
+            GameManager.Instance.owner.GetComponent<JoinGroup>().sep();
         }
     }
 }

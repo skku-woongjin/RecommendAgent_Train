@@ -13445,6 +13445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f54eb144044a4734bcec67af2fe86a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isbad: 1
   UDangTangMat: {fileID: 2100000, guid: 2b7b7b7623acd4d00a41275b4594651f, type: 2}
   CommonMat: {fileID: 2100000, guid: ecd59def9213741058b969f699d10e8e, type: 2}
   Sphere: {fileID: 1724908954}
@@ -13557,6 +13558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f54eb144044a4734bcec67af2fe86a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isbad: 1
   UDangTangMat: {fileID: 2100000, guid: 2b7b7b7623acd4d00a41275b4594651f, type: 2}
   CommonMat: {fileID: 2100000, guid: ecd59def9213741058b969f699d10e8e, type: 2}
   Sphere: {fileID: 646646604}
@@ -15095,6 +15097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f54eb144044a4734bcec67af2fe86a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isbad: 1
   UDangTangMat: {fileID: 2100000, guid: 2b7b7b7623acd4d00a41275b4594651f, type: 2}
   CommonMat: {fileID: 2100000, guid: ecd59def9213741058b969f699d10e8e, type: 2}
   Sphere: {fileID: 239666781}
@@ -15781,6 +15784,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 480036070}
+        m_TargetAssemblyTypeName: IdleAgent, Assembly-CSharp
+        m_MethodName: endSay
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

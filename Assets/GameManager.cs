@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public ConvGroup curGroup;
     public Transform cam;
     public request req;
+    public bool ingroup;
     private static GameManager gm;
     public static GameManager Instance
     {
