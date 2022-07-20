@@ -25,7 +25,7 @@ public class Choose_Pic : MonoBehaviour
     public ChatManager chatmanager;
     public Button btn;//정답&이거 정답맞지?버튼
     public Transform hearts;
-    
+
     public int wrongCount = 0;
     int i = 0;
     void Start()
@@ -38,8 +38,9 @@ public class Choose_Pic : MonoBehaviour
     public void print_caption()
     {
         //Debug.Log("caption: "+caption);
-        string text = "내가 생각한 그림은 " + caption + "이야. 이제부턴 영어로 질문해보자!";
+        string text = "내가 생각한 그림은\n<color=blue>" + caption + "</color>\n이야. \n이제부턴 영어로 질문해보자!";
         chatmanager.Chat(false, text, "타인");
+        // LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)chatParent);
     }
 
     // Update is called once per frame
@@ -177,13 +178,13 @@ public class Choose_Pic : MonoBehaviour
         if (btn.interactable == false)
         {
             btn.interactable = true;
-           
+
         }
     }
 
     //정답일거같은 이미지 pick
     public void choose()
-    {   
+    {
         //정답맞는지 확인
         if (answer.text.Equals("이게 정답 맞지??"))
         {
@@ -193,7 +194,7 @@ public class Choose_Pic : MonoBehaviour
                 chatmanager.Chat(false, "YES!!!!!", "타인");
 
                 //다음 라운드로 이동(새로운 랜덤이미지들)
-                StartCoroutine(ReloadScene()); 
+                StartCoroutine(ReloadScene());
             }
             else
             {
