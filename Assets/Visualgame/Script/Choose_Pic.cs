@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
@@ -8,13 +9,14 @@ using UnityEngine.Networking;
 using System.Text.RegularExpressions;
 using System;
 
+
 public class Choose_Pic : MonoBehaviour
 {
     // Start is called before the first frame update
     public TMP_Text answer;
-    public int REALAns;
+    public int REALAns;  //정답
     public Image X_img;
-    int curAns;
+    int curAns; //내가 고른 답
 
     public InputText inputText;
 
@@ -23,7 +25,7 @@ public class Choose_Pic : MonoBehaviour
     public ChatManager chatmanager;
     public Button btn;//정답&이거 정답맞지?버튼
     public Transform hearts;
-    bool picked = false;
+    
     public int wrongCount = 0;
     int i = 0;
     void Start()
@@ -175,18 +177,23 @@ public class Choose_Pic : MonoBehaviour
         if (btn.interactable == false)
         {
             btn.interactable = true;
-            picked = true;
+           
         }
     }
+
+    //정답일거같은 이미지 pick
     public void choose()
-    {
+    {   
+        //정답맞는지 확인
         if (answer.text.Equals("이게 정답 맞지??"))
         {
             chatmanager.Chat(true, "이게 정답 맞지??", "나");
             if (curAns == REALAns)
             {
                 chatmanager.Chat(false, "YES!!!!!", "타인");
-                StartCoroutine(ReloadScene());
+
+                //다음 라운드로 이동(새로운 랜덤이미지들)
+                StartCoroutine(ReloadScene()); 
             }
             else
             {
@@ -198,6 +205,7 @@ public class Choose_Pic : MonoBehaviour
                     if (wrongCount == 3)
                     {
                         chatmanager.Chat(false, "Game Over", "타인");
+                        SceneManager.LoadScene(0);
                         return;
                     }
                 }
