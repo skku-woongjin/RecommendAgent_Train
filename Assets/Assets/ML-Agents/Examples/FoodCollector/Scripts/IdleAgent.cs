@@ -92,6 +92,8 @@ public class IdleAgent : Agent
     }
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
+        if (state == States.say)
+            return;
         switch (state)
         {
             case States.rand:
@@ -379,6 +381,7 @@ public class IdleAgent : Agent
     public void say()
     {
         stopStart();
+        transform.rotation = Quaternion.LookRotation(-removY(transform.position - GameManager.Instance.owner.position));
         QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
         QuoteCanv.SetActive(true);
 
