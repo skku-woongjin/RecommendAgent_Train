@@ -14,6 +14,7 @@ public class JoinGroup : MonoBehaviour
     }
     public void join()
     {
+        GameManager.Instance.idleAgent.endObst();
         Transform t = GameManager.Instance.curGroup.transform.GetChild(0);
         transform.SetParent(t.parent);
         Physics.IgnoreCollision(GetComponent<Collider>(), t.parent.GetComponent<Collider>(), true);

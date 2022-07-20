@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Assets/ML-Agents/Examples/FoodCollector/Scenes/FoodCollector.unity
     guid: 366decb3515a24667acb8372da7ba30b
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Visualgame/Scenes/Game.unity
     guid: 74b9ae4e99012d14897ea86e4c008ab6
   m_configObjects: {}
