@@ -23,9 +23,10 @@ public class ConvGroup : MonoBehaviour
 
     public void join()
     {
-        foreach (GameObject u in Users)
+        foreach (Transform u in transform)
         {
-            u.GetComponent<SaySomething>().say("안녕");
+            if (u.GetComponent<SaySomething>() != null)
+                u.GetComponent<SaySomething>().say("안녕");
         }
     }
 

@@ -156,7 +156,7 @@ public class IdleAgent : Agent
 
             case States.bound:
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position - transform.position)), Time.deltaTime * turnSpeed * 0.01f);
-                m_AgentRb.AddForce(transform.forward * moveSpeed * 2, ForceMode.VelocityChange);
+                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 0.1f, ForceMode.VelocityChange);
                 if (m_AgentRb.velocity.sqrMagnitude > 4f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
@@ -363,6 +363,7 @@ public class IdleAgent : Agent
             state = States.bound;
             setMat();
         }
+        dirVec = transform.forward;
     }
 
     void endBoundAgent()
@@ -378,8 +379,15 @@ public class IdleAgent : Agent
     #endregion
 
     #region outboundAgent
+    Vector3 Navpos;
     void OutBoundAgent()
     {
+        float walkRadius = Random.Range(20f, 50f);
+        Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
+        Vector3 finalPosition = hit.position;
         if (state == States.say) return;
         if (state == States.stop || decel)
         {
@@ -454,13 +462,17 @@ public class IdleAgent : Agent
         }
     }
 
+    void setRandDir()
+    {
+        dirVec = new Vector3(Random.insideUnitSphere.normalized.x, 0, Random.insideUnitSphere.normalized.z);
+    }
     IEnumerator changedir()
     {
         while (true)
         {
             if (state == States.rand)
             {
-                dirVec = new Vector3(Random.insideUnitSphere.normalized.x, 0, Random.insideUnitSphere.normalized.z);
+                setRandDir();
             }
             autoMoveSpeed = Random.Range(0.1f, moveSpeed);
             autoTurnSpeed = Random.Range(50, turnSpeed);
@@ -476,7 +488,6 @@ public class IdleAgent : Agent
 
     IEnumerator stop(bool inte)
     {
-        // gameObject.GetComponentInChildren<Renderer>().material = grayMat;
         StopCoroutine(ChangeDir);
         ChangeDir = changedir();
         decel = true;
@@ -498,7 +509,6 @@ public class IdleAgent : Agent
         {
             endInterest();
         }
-        // gameObject.GetComponentInChildren<Renderer>().material = blueMat;
     }
 
     IEnumerator JustStop;

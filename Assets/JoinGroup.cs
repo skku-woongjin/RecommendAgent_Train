@@ -19,14 +19,16 @@ public class JoinGroup : MonoBehaviour
     }
     public void join()
     {
-        if (!GameManager.Instance.curGroup.isbad)
-            GameManager.Instance.idleAgent.endObst();
-        GameManager.Instance.ingroup = true;
         Transform t = GameManager.Instance.curGroup.transform.GetChild(0);
+        if (!GameManager.Instance.curGroup.isbad)
+        {
+            GameManager.Instance.idleAgent.endObst();
+            Physics.IgnoreCollision(pet.GetComponent<Collider>(), t.parent.GetComponent<Collider>(), true);
+        }
+        GameManager.Instance.ingroup = true;
         transform.SetParent(t.parent);
         transform.rotation = Quaternion.LookRotation(removY(-transform.position + t.position));
         Physics.IgnoreCollision(GetComponent<Collider>(), t.parent.GetComponent<Collider>(), true);
-        Physics.IgnoreCollision(pet.GetComponent<Collider>(), t.parent.GetComponent<Collider>(), true);
         GetComponent<Rigidbody>().AddForce(transform.forward * 3000, ForceMode.Impulse);
         t.parent.GetComponent<ConvGroup>().hideSphere();
         t.parent.GetComponent<ConvGroup>().join();
@@ -37,7 +39,7 @@ public class JoinGroup : MonoBehaviour
     {
         if (GameManager.Instance.curGroup.isbad)
             GameManager.Instance.idleAgent.endObst();
-        transform.SetParent(transform.parent.parent);
+        transform.SetParent(GameManager.Instance.transform);
         GameManager.Instance.ingroup = false;
     }
 
