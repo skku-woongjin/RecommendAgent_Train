@@ -31,7 +31,7 @@ public class IdleAgent : Agent
     public bool colliding = false;
 
     bool inbound;
-    bool interested;
+    public bool interested;
 
     public float turnSpeed = 300;
     public float moveSpeed = 2;
@@ -109,28 +109,42 @@ public class IdleAgent : Agent
                 break;
 
             case States.inte:
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
-                m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
-                if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
+                if (nav.enabled == true)
                 {
-                    if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20 && state != States.stop && !decel)
+                    if (checkNavEnd(nav))
                     {
+                        nav.enabled = false;
                         StartCoroutine(inteStop);
+
+                        return;
                     }
 
                 }
                 else
-                {
-                    if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
-                    {
-                        m_AgentRb.velocity *= 1.05f;
-                    }
-                }
-                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
-                {
-                    m_AgentRb.velocity *= 0.95f;
-                }
+                    nav.enabled = true;
+
+                nav.SetDestination(interestingObj.position);
+                // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
+                // m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
+                // if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
+                // {
+                //     if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20 && state != States.stop && !decel)
+                //     {
+                //         StartCoroutine(inteStop);
+                //     }
+
+                // }
+                // else
+                // {
+                //     if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
+                //     {
+                //         m_AgentRb.velocity *= 1.05f;
+                //     }
+                // }
+                // if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
+                // {
+                //     m_AgentRb.velocity *= 0.95f;
+                // }
 
                 break;
 
