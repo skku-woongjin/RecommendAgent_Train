@@ -4,25 +4,37 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - agent
   - ground
-  - vacant
-  - wave
-  - vacant1
-  - coin
-  - refill
-  - tree
-  - spring
+  - target
+  - wall
+  - key
+  - lock
+  - food
+  - badFood
+  - ex
+  - plus
+  - bound
+  - aibound
+  - aibound2
+  - goal
+  - block
+  - ball
+  - Obstacle
+  - tile
+  - walkableSurface
+  - Sphere
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Agent
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - ground
+  - bound
+  - player
+  - Minimap
   - 
   - 
   - 
