@@ -41,6 +41,7 @@ public class IdleAgent : Agent
 
     public override void Initialize()
     {
+        nav = GetComponent<NavMeshAgent>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         inteStop = stop(true);
@@ -90,6 +91,7 @@ public class IdleAgent : Agent
     {
         return new Vector3(vec.x, 0, vec.z);
     }
+    NavMeshAgent nav;
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
         if (state == States.say)
@@ -99,7 +101,7 @@ public class IdleAgent : Agent
             case States.rand:
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dirVec), Time.deltaTime * autoTurnSpeed * 0.01f);
-                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude > 2f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
@@ -172,16 +174,52 @@ public class IdleAgent : Agent
 
         if (state == States.outbound) //비상!!!
         {
-            GetComponent<NavMeshAgent>().enabled = true;
-            GetComponent<NavMeshAgent>().SetDestination(owner.position);
+            NavMeshHit hit;
+            NavMesh.SamplePosition(Navpos + owner.position, out hit, 100, 1);
+            Vector3 finalPosition = hit.position;
+            if (nav.enabled == true)
+            {
+                if (checkNavEnd(nav))
+                {
+                    nav.enabled = false;
+                    dirVec = transform.forward;
+                    state = States.rand;
+                    if (interested)
+                    {
+                        interest();
+                    }
+                    setMat();
+                    return;
+                }
+
+            }
+            else
+                nav.enabled = true;
+
+            nav.SetDestination(finalPosition);
 
         }
         else
         {
             if (state != States.stop && state != States.say)
-                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 3f, ForceMode.VelocityChange);
+                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 2.4f, ForceMode.VelocityChange);
         }
 
+    }
+
+    bool checkNavEnd(NavMeshAgent mNavMeshAgent)
+    {
+        if (!mNavMeshAgent.pathPending)
+        {
+            if (mNavMeshAgent.remainingDistance <= mNavMeshAgent.stoppingDistance)
+            {
+                if (!mNavMeshAgent.hasPath || mNavMeshAgent.velocity.sqrMagnitude <= 0.1f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public override void OnActionReceived(ActionBuffers actionBuffers) { MoveAgent(actionBuffers); }
 
@@ -259,7 +297,7 @@ public class IdleAgent : Agent
         if (other.gameObject.CompareTag("bound"))
         {
 
-            BoundAgent();
+            // BoundAgent();
             // Physics.IgnoreLayerCollision(0, 3, false);
         }
         else if (other.gameObject.CompareTag("aibound2"))
@@ -311,6 +349,13 @@ public class IdleAgent : Agent
             state = States.inte;
             setMat();
         }
+        if (nav.enabled && interestingObj != null)
+        {
+            nav.SetDestination(interestingObj.position);
+            nav.stoppingDistance = 3;
+            state = States.inte;
+            setMat();
+        }
     }
 
     public void endInterest()
@@ -318,6 +363,7 @@ public class IdleAgent : Agent
         interested = false;
         ObstAgent(interestingObj);
         interestingObj = null;
+        nav.enabled = false;
         setMat();
     }
 
@@ -380,14 +426,11 @@ public class IdleAgent : Agent
 
     #region outboundAgent
     Vector3 Navpos;
+
     void OutBoundAgent()
     {
-        float walkRadius = Random.Range(20f, 50f);
-        Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
-        Vector3 finalPosition = hit.position;
+        Vector2 Nav2D = Random.insideUnitCircle;
+        Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
         if (state == States.say) return;
         if (state == States.stop || decel)
         {
@@ -456,7 +499,7 @@ public class IdleAgent : Agent
         }
         RequestAction();
 
-        if (state != States.outbound && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
+        if (!nav.enabled && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
         {
             OutBoundAgent();
         }
