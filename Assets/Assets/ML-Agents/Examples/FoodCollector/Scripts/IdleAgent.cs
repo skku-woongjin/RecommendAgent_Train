@@ -99,7 +99,7 @@ public class IdleAgent : Agent
             case States.rand:
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dirVec), Time.deltaTime * autoTurnSpeed * 0.01f);
-                if (m_AgentRb.velocity.sqrMagnitude > 1f) //최대속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
@@ -108,7 +108,7 @@ public class IdleAgent : Agent
 
             case States.inte:
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.03f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
                 m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
                 if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
                 {
@@ -120,12 +120,12 @@ public class IdleAgent : Agent
                 }
                 else
                 {
-                    if (m_AgentRb.velocity.sqrMagnitude < 2f) //최소속도 설정
+                    if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
                     {
                         m_AgentRb.velocity *= 1.05f;
                     }
                 }
-                if (m_AgentRb.velocity.sqrMagnitude > 3f) //최대속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
@@ -140,13 +140,13 @@ public class IdleAgent : Agent
                     transform.Rotate(rotateDir, Time.fixedDeltaTime * turnSpeed);
                 }
 
-                m_AgentRb.AddForce(transform.forward * moveSpeed * 0.2f, ForceMode.VelocityChange);
-                if (m_AgentRb.velocity.sqrMagnitude > 1f) //최대속도 설정
+                m_AgentRb.AddForce(transform.forward * moveSpeed * 0.5f, ForceMode.VelocityChange);
+                if (m_AgentRb.velocity.sqrMagnitude > 2f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
 
-                if (m_AgentRb.velocity.sqrMagnitude < 0.5f) //최소속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude < 1f) //최소속도 설정
                 {
                     m_AgentRb.velocity *= 1.05f;
                 }
@@ -156,13 +156,13 @@ public class IdleAgent : Agent
 
             case States.bound:
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position - transform.position)), Time.deltaTime * turnSpeed * 0.01f);
-                m_AgentRb.AddForce(transform.forward * moveSpeed * .2f, ForceMode.VelocityChange);
-                if (m_AgentRb.velocity.sqrMagnitude > 1.5f) //최대속도 설정
+                m_AgentRb.AddForce(transform.forward * moveSpeed * 2, ForceMode.VelocityChange);
+                if (m_AgentRb.velocity.sqrMagnitude > 4f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
 
-                if (m_AgentRb.velocity.sqrMagnitude < 0.5f) //최소속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude < 3f) //최소속도 설정
                 {
                     m_AgentRb.velocity *= 1.05f;
                 }
@@ -174,63 +174,13 @@ public class IdleAgent : Agent
         {
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<NavMeshAgent>().SetDestination(owner.position);
-            // float rot = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
-            // Vector3 rotateDir = -transform.up * rot;
-            // if (rotateDir.sqrMagnitude > 0.1)
-            // {
-            //     transform.Rotate(rotateDir, Time.fixedDeltaTime * turnSpeed);
-            // }
-
-            // // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position + owner.right * 1.5f - transform.position)), Time.deltaTime * autoTurnSpeed);
-            // m_AgentRb.AddForce(transform.forward * 3 * moveSpeed, ForceMode.VelocityChange);
-            // if (m_AgentRb.velocity.sqrMagnitude > owner.GetComponent<Rigidbody>().velocity.sqrMagnitude * 1.5) //최대속도 설정
-            // {
-            //     m_AgentRb.velocity *= 0.95f;
-            // }
-            // if (m_AgentRb.velocity.sqrMagnitude < 6) //최소속도 설정
-            // {
-            //     m_AgentRb.velocity *= 1.5f;
-            // }
 
         }
         else
         {
             if (state != States.stop && state != States.say)
-                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 2.4f, ForceMode.VelocityChange);
+                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 3f, ForceMode.VelocityChange);
         }
-        // if (boundAgent)
-        // {
-        //     var continuousActions = actionBuffers.ContinuousActions;
-
-        //     rot = continuousActions[2];
-        //     spd = continuousActions[0];
-
-        //     dirToGo = Vector3.zero;
-        //     rotateDir = Vector3.zero;
-
-        //     var forward = Mathf.Clamp(spd, -1f, 1f);
-        //     var right = Mathf.Clamp(continuousActions[1], -1f, 1f);
-        //     var rotate = Mathf.Clamp(rot, -1f, 1f);
-
-        // rotateDir = -transform.up * rotate;
-        // if (rotateDir.sqrMagnitude > 0.1)
-        // {
-        //     transform.Rotate(rotateDir, Time.fixedDeltaTime * turnSpeed);
-        // }
-        //     dirToGo = transform.forward * (forward);
-
-        //     m_AgentRb.AddForce(dirToGo * moveSpeed, ForceMode.VelocityChange);
-
-        //     if (m_AgentRb.velocity.sqrMagnitude > 10f) //최대속도 설정
-        //     {
-        //         m_AgentRb.velocity *= 0.95f;
-        //     }
-
-        //     // if (m_AgentRb.velocity.sqrMagnitude < 10f) //최소속도 설정
-        //     // {
-        //     //     m_AgentRb.AddForce(transform.forward * moveSpeed * 5, ForceMode.VelocityChange);
-        //     // }
-        // }
 
     }
     public override void OnActionReceived(ActionBuffers actionBuffers) { MoveAgent(actionBuffers); }
@@ -257,10 +207,6 @@ public class IdleAgent : Agent
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(-obstacle.position + transform.position)), Time.deltaTime * turnSpeed * 0.01f);
             }
         }
-        // if (state == States.outbound)
-        // {
-        //     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position + owner.right * 1.5f - transform.position)), Time.deltaTime * autoTurnSpeed);
-        // }
     }
 
     #region collision
@@ -502,7 +448,7 @@ public class IdleAgent : Agent
         }
         RequestAction();
 
-        if (state != States.outbound && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 100)
+        if (state != States.outbound && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
         {
             OutBoundAgent();
         }
