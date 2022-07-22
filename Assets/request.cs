@@ -16,6 +16,7 @@ public class Quest
 public class request : MonoBehaviour
 {
     public TMP_Text questText;
+    public TMP_Text catQuestText;
     public bool ishate = false;
     void Start()
     {
@@ -100,6 +101,7 @@ public class request : MonoBehaviour
         {
             string res = req.downloadHandler.text;
             questText.text = res;
+            catQuestText.text = res;
         }
     }
 }
