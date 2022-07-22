@@ -23,7 +23,17 @@ public class IdleAgent : Agent
         outbound,
         say
     }
+
+    public enum Loc
+    {
+        safe,
+        bound,
+        outbound
+
+    }
+
     public States state;
+    public Loc loc;
     public bool colliding = false;
 
     bool inbound;
