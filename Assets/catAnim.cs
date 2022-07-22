@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class catAnim : MonoBehaviour
 {
@@ -9,10 +10,11 @@ public class catAnim : MonoBehaviour
     public Animator anim;
 
     Quaternion lastRot;
-
+    NavMeshAgent nav;
     void Start()
     {
         lastRot = tr.rotation;
+        nav = tr.GetComponent<NavMeshAgent>();
     }
     void FixedUpdate()
     {
@@ -25,9 +27,9 @@ public class catAnim : MonoBehaviour
         {
             anim.SetFloat("speed", 1f);
         }
-        if (tr.GetComponent<IdleAgent>().state == IdleAgent.States.outbound)
+        if (tr.GetComponent<NavMeshAgent>().enabled)
         {
-            anim.SetFloat("speed", 5f);
+            anim.SetFloat("speed", nav.speed);
         }
 
         anim.SetBool("Stopping", stopping);
