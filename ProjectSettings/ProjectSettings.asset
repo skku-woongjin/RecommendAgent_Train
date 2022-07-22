@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 23
-  productGUID: 00000000000000000000000000000000
+  productGUID: 5c86b54760cd743b48ec89a304947879
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -610,7 +610,7 @@ PlayerSettings:
     tvOS: EASY_MOBILE;EASY_MOBILE_PRO
   additionalCompilerArguments: {}
   platformArchitecture:
-    iPhone: 2
+    iPhone: 1
     tvOS: 1
   scriptingBackend:
     Android: 0
@@ -655,7 +655,8 @@ PlayerSettings:
   metroDefaultTileSize: 1
   metroTileForegroundText: 1
   metroTileBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628, a: 0}
-  metroSplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628, a: 1}
+  metroSplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628,
+    a: 1}
   metroSplashScreenUseBackgroundColor: 1
   platformCapabilities: {}
   metroTargetDeviceFamilies: {}
@@ -711,7 +712,7 @@ PlayerSettings:
   cloudProjectId: 1b519732-ba7f-4a6f-a27a-84c83fea3542
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Sample Project
+  projectName: My project
   organizationId: jayjaynap
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 1

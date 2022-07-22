@@ -91,7 +91,7 @@ public class IdleAgent : Agent
     NavMeshAgent nav;
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
-        if (state == States.say)
+        if (state == States.say || state == States.stop || decel)
             return;
         switch (state)
         {
@@ -103,6 +103,7 @@ public class IdleAgent : Agent
                     m_AgentRb.velocity *= 0.95f;
                 }
                 break;
+            //ANCHOR INTE
             case States.inte:
                 if (nav.enabled == true)
                 {
@@ -110,39 +111,14 @@ public class IdleAgent : Agent
                     {
                         nav.enabled = false;
                         StartCoroutine(inteStop);
-
                         return;
                     }
-
                 }
                 else
                     nav.enabled = true;
-
                 nav.SetDestination(interestingObj.position);
-                // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
-                // m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
-                // if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
-                // {
-                //     if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20 && state != States.stop && !decel)
-                //     {
-                //         StartCoroutine(inteStop);
-                //     }
-
-                // }
-                // else
-                // {
-                //     if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
-                //     {
-                //         m_AgentRb.velocity *= 1.05f;
-                //     }
-                // }
-                // if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
-                // {
-                //     m_AgentRb.velocity *= 0.95f;
-                // }
-
                 break;
-
+            //ANCHOR AVOID(agent)
             case States.avoid:
                 float rot = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
                 Vector3 rotateDir = -transform.up * rot;
@@ -161,6 +137,7 @@ public class IdleAgent : Agent
                 }
                 // }
                 break;
+            //ANCHOR BOUND
             case States.bound:
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position - transform.position)), Time.deltaTime * turnSpeed * 0.01f);
                 m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 0.1f, ForceMode.VelocityChange);
@@ -174,7 +151,8 @@ public class IdleAgent : Agent
                 }
                 break;
         }
-        if (state == States.outbound) //비상!!!
+        //ANCHOR OUTBOUND
+        if (state == States.outbound)
         {
             NavMeshHit hit;
             NavMesh.SamplePosition(Navpos + owner.position, out hit, 100, 1);
@@ -221,6 +199,7 @@ public class IdleAgent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers) { MoveAgent(actionBuffers); }
     public override void Heuristic(in ActionBuffers actionsOut)
     {
+        //ANCHOR AVOID
         var continuousActionsOut = actionsOut.ContinuousActions;
         if (state == States.avoid)
         {
@@ -240,15 +219,8 @@ public class IdleAgent : Agent
         if (!collision.collider.CompareTag("ground"))
         {
             colliding = true;
-            if (collision.collider.CompareTag("Player"))
-            {
-                state = States.avoid;
-                ObstAgent(collision.transform);
-            }
-            if (state != States.avoid && state != States.outbound && state != States.inte)
-            {
-                ObstAgent(collision.transform);
-            }
+            obstacle = collision.transform;
+            ObstAgent(obstacle);
         }
     }
     private void OnCollisionExit(Collision other)
@@ -265,8 +237,6 @@ public class IdleAgent : Agent
         {
             loc = Loc.outbound;
             OutBoundAgent();
-            // AddReward(-1f);
-            // EndEpisode();
         }
         else if (other.gameObject.CompareTag("aibound2"))
         {
@@ -279,7 +249,6 @@ public class IdleAgent : Agent
         if (other.gameObject.CompareTag("bound"))
         {
             loc = Loc.bound;
-            // BoundAgent();
         }
         else if (other.gameObject.CompareTag("aibound2"))
         {
@@ -317,6 +286,7 @@ public class IdleAgent : Agent
                 break;
         }
     }
+    //NOTE interest
     #region interest
     public Transform interestingObj;
     public void interest()
@@ -330,7 +300,7 @@ public class IdleAgent : Agent
         if (nav.enabled && interestingObj != null)
         {
             nav.SetDestination(interestingObj.position);
-            nav.stoppingDistance = 3;
+            nav.stoppingDistance = 5;
             state = States.inte;
             setMat();
         }
@@ -344,6 +314,8 @@ public class IdleAgent : Agent
         setMat();
     }
     #endregion
+    //NOTE say
+    #region say
     public GameObject QuoteCanv;
     public void say()
     {
@@ -367,6 +339,9 @@ public class IdleAgent : Agent
         // }
         setMat();
     }
+    #endregion
+
+    //NOTE bound
     #region boundAgent
     void BoundAgent()
     {
@@ -392,23 +367,26 @@ public class IdleAgent : Agent
         setMat();
     }
     #endregion
+
+    //NOTE outbound
     #region outboundAgent
     Vector3 Navpos;
     void OutBoundAgent()
     {
         Vector2 Nav2D = Random.insideUnitCircle;
         Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
+        nav.stoppingDistance = 0;
         if (state == States.say) return;
         if (state == States.stop || decel)
         {
             stopEnd();
         }
-        // Physics.IgnoreLayerCollision(0, 3);
         state = States.outbound;
         setMat();
     }
     #endregion
 
+    //NOTE avoid
     #region avoid 
     public Transform obstacle;
     public void ObstAgent(Transform obs)
@@ -421,6 +399,8 @@ public class IdleAgent : Agent
         {
             stopEnd();
         }
+        if (nav.enabled)
+            nav.enabled = false;
         obstacle = obs;
         state = States.avoid;
         setMat();
@@ -433,13 +413,10 @@ public class IdleAgent : Agent
         {
             interest();
         }
-        // if (!inbound)
-        // {
-        //     BoundAgent();
-        // }
         setMat();
     }
     #endregion
+    //NOTE update
     #region update
     void FixedUpdate()
     {
@@ -480,6 +457,7 @@ public class IdleAgent : Agent
         }
     }
     #endregion
+    //NOTE stop
     #region stop
     public bool decel;
     IEnumerator stop(bool inte)
