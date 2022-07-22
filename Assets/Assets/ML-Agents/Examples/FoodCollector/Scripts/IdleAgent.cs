@@ -361,16 +361,16 @@ public class IdleAgent : Agent
         {
             interest();
         }
-        if (!inbound)
-        {
-            BoundAgent();
-        }
+        // if (!inbound)
+        // {
+        //     BoundAgent();
+        // }
         setMat();
     }
     #region boundAgent
     void BoundAgent()
     {
-        inbound = false;
+        // inbound = false;
         if (state <= States.bound || state == States.outbound)
         {
             if (state == States.stop || decel)
@@ -433,10 +433,10 @@ public class IdleAgent : Agent
         {
             interest();
         }
-        if (!inbound)
-        {
-            BoundAgent();
-        }
+        // if (!inbound)
+        // {
+        //     BoundAgent();
+        // }
         setMat();
     }
     #endregion
