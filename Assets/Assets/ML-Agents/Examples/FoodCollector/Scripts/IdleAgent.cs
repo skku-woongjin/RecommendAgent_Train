@@ -481,6 +481,8 @@ public class IdleAgent : Agent
     public bool decel;
     IEnumerator stop(bool inte)
     {
+        if (nav.enabled)
+            nav.enabled = false;
         StopCoroutine(ChangeDir);
         ChangeDir = changedir();
         decel = true;
