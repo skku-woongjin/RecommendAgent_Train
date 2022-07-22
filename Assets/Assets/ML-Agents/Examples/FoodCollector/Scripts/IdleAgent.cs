@@ -5,11 +5,9 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
 using UnityEngine.AI;
-
 public class IdleAgent : Agent
 {
     Rigidbody m_AgentRb;
-
     public Material blueMat;
     public Material purpleMat;
     public Material redMat;
@@ -25,32 +23,28 @@ public class IdleAgent : Agent
         outbound,
         say
     }
-
     public States state;
-
     public bool colliding = false;
 
     bool inbound;
-    bool interested;
+    public bool interested;
 
     public float turnSpeed = 300;
     public float moveSpeed = 2;
 
     public float rew;
     EnvironmentParameters m_ResetParams;
-
     public override void Initialize()
     {
+        nav = GetComponent<NavMeshAgent>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         inteStop = stop(true);
         ChangeDir = changedir();
         rend = gameObject.GetComponentInChildren<Renderer>();
     }
-
     public OwnerController ownerController;
     IEnumerator ChangeDir;
-
     public override void OnEpisodeBegin()
     {
         Physics.IgnoreLayerCollision(3, 8);
@@ -67,7 +61,6 @@ public class IdleAgent : Agent
         StartCoroutine("StopStop");
         state = States.rand;
     }
-
     public override void CollectObservations(VectorSensor sensor)
     {
         var localVelocity = transform.InverseTransformDirection(m_AgentRb.velocity);
@@ -79,17 +72,16 @@ public class IdleAgent : Agent
         // sensor.AddObservation(owner.position.x);
         // sensor.AddObservation(owner.position.z);
     }
-
     public Transform owner;
     Vector3 dirVec;
     float autoTurnSpeed = 150;
     float autoMoveSpeed = 0.15f;
     IEnumerator inteStop;
-
     Vector3 removY(Vector3 vec)
     {
         return new Vector3(vec.x, 0, vec.z);
     }
+    NavMeshAgent nav;
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
         if (state == States.say)
@@ -97,38 +89,50 @@ public class IdleAgent : Agent
         switch (state)
         {
             case States.rand:
-
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dirVec), Time.deltaTime * autoTurnSpeed * 0.01f);
-                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
+                if (m_AgentRb.velocity.sqrMagnitude > 2f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
-
                 break;
 
             case States.inte:
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
-                m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
-                if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
+                if (nav.enabled == true)
                 {
-                    if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20 && state != States.stop && !decel)
+                    if (checkNavEnd(nav))
                     {
+                        nav.enabled = false;
                         StartCoroutine(inteStop);
+
+                        return;
                     }
 
                 }
                 else
-                {
-                    if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
-                    {
-                        m_AgentRb.velocity *= 1.05f;
-                    }
-                }
-                if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
-                {
-                    m_AgentRb.velocity *= 0.95f;
-                }
+                    nav.enabled = true;
+
+                nav.SetDestination(interestingObj.position);
+                // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(interestingObj.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.06f);
+                // m_AgentRb.AddForce(transform.forward * autoMoveSpeed, ForceMode.VelocityChange);
+                // if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20)
+                // {
+                //     if (Vector3.SqrMagnitude(interestingObj.position - transform.position) < 20 && state != States.stop && !decel)
+                //     {
+                //         StartCoroutine(inteStop);
+                //     }
+
+                // }
+                // else
+                // {
+                //     if (m_AgentRb.velocity.sqrMagnitude < 4f) //최소속도 설정
+                //     {
+                //         m_AgentRb.velocity *= 1.05f;
+                //     }
+                // }
+                // if (m_AgentRb.velocity.sqrMagnitude > 5f) //최대속도 설정
+                // {
+                //     m_AgentRb.velocity *= 0.95f;
+                // }
 
                 break;
 
@@ -139,21 +143,17 @@ public class IdleAgent : Agent
                 {
                     transform.Rotate(rotateDir, Time.fixedDeltaTime * turnSpeed);
                 }
-
                 m_AgentRb.AddForce(transform.forward * moveSpeed * 0.5f, ForceMode.VelocityChange);
                 if (m_AgentRb.velocity.sqrMagnitude > 2f) //최대속도 설정
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
-
                 if (m_AgentRb.velocity.sqrMagnitude < 1f) //최소속도 설정
                 {
                     m_AgentRb.velocity *= 1.05f;
                 }
                 // }
-
                 break;
-
             case States.bound:
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(owner.position - transform.position)), Time.deltaTime * turnSpeed * 0.01f);
                 m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 0.1f, ForceMode.VelocityChange);
@@ -161,34 +161,60 @@ public class IdleAgent : Agent
                 {
                     m_AgentRb.velocity *= 0.95f;
                 }
-
                 if (m_AgentRb.velocity.sqrMagnitude < 3f) //최소속도 설정
                 {
                     m_AgentRb.velocity *= 1.05f;
                 }
                 break;
         }
-
-
         if (state == States.outbound) //비상!!!
         {
-            GetComponent<NavMeshAgent>().enabled = true;
-            GetComponent<NavMeshAgent>().SetDestination(owner.position);
-
+            NavMeshHit hit;
+            NavMesh.SamplePosition(Navpos + owner.position, out hit, 100, 1);
+            Vector3 finalPosition = hit.position;
+            if (nav.enabled == true)
+            {
+                if (checkNavEnd(nav))
+                {
+                    nav.enabled = false;
+                    dirVec = transform.forward;
+                    state = States.rand;
+                    if (interested)
+                    {
+                        interest();
+                    }
+                    setMat();
+                    return;
+                }
+            }
+            else
+                nav.enabled = true;
+            nav.SetDestination(finalPosition);
         }
         else
         {
             if (state != States.stop && state != States.say)
-                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 3f, ForceMode.VelocityChange);
+                m_AgentRb.AddForce(transform.forward * autoMoveSpeed * 2.4f, ForceMode.VelocityChange);
         }
-
+    }
+    bool checkNavEnd(NavMeshAgent mNavMeshAgent)
+    {
+        if (!mNavMeshAgent.pathPending)
+        {
+            if (mNavMeshAgent.remainingDistance <= mNavMeshAgent.stoppingDistance)
+            {
+                if (!mNavMeshAgent.hasPath || mNavMeshAgent.velocity.sqrMagnitude <= 0.1f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public override void OnActionReceived(ActionBuffers actionBuffers) { MoveAgent(actionBuffers); }
-
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
-
         if (Input.GetKey(KeyCode.D))
         {
             continuousActionsOut[0] = -1;
@@ -199,7 +225,6 @@ public class IdleAgent : Agent
         }
         if (state == States.avoid)
         {
-
             if (obstacle == null)
                 endObst();
             else
@@ -208,29 +233,23 @@ public class IdleAgent : Agent
             }
         }
     }
-
     #region collision
     void OnCollisionEnter(Collision collision)
     {
         if (!collision.collider.CompareTag("ground"))
         {
             colliding = true;
-
             if (collision.collider.CompareTag("Player"))
             {
                 state = States.avoid;
                 ObstAgent(collision.transform);
             }
-
             if (state != States.avoid && state != States.outbound && state != States.inte)
             {
                 ObstAgent(collision.transform);
             }
         }
-
-
     }
-
     private void OnCollisionExit(Collision other)
     {
         colliding = false;
@@ -239,7 +258,6 @@ public class IdleAgent : Agent
             endObst();
         }
     }
-
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("bound"))
@@ -253,13 +271,11 @@ public class IdleAgent : Agent
             BoundAgent();
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("bound"))
         {
-
-            BoundAgent();
+            // BoundAgent();
             // Physics.IgnoreLayerCollision(0, 3, false);
         }
         else if (other.gameObject.CompareTag("aibound2"))
@@ -271,9 +287,7 @@ public class IdleAgent : Agent
             }
         }
     }
-
     #endregion
-
     Renderer rend;
     void setMat()
     {
@@ -300,7 +314,6 @@ public class IdleAgent : Agent
                 break;
         }
     }
-
     #region interest
     public Transform interestingObj;
     public void interest()
@@ -311,18 +324,23 @@ public class IdleAgent : Agent
             state = States.inte;
             setMat();
         }
+        if (nav.enabled && interestingObj != null)
+        {
+            nav.SetDestination(interestingObj.position);
+            nav.stoppingDistance = 3;
+            state = States.inte;
+            setMat();
+        }
     }
-
     public void endInterest()
     {
         interested = false;
         ObstAgent(interestingObj);
         interestingObj = null;
+        nav.enabled = false;
         setMat();
     }
-
     #endregion
-
     public GameObject QuoteCanv;
     public void say()
     {
@@ -330,10 +348,8 @@ public class IdleAgent : Agent
         transform.rotation = Quaternion.LookRotation(-removY(transform.position - GameManager.Instance.owner.position));
         QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
         QuoteCanv.SetActive(true);
-
         state = States.say;
     }
-
     public void endSay()
     {
         state = States.rand;
@@ -348,9 +364,7 @@ public class IdleAgent : Agent
         }
         setMat();
     }
-
     #region boundAgent
-
     void BoundAgent()
     {
         inbound = false;
@@ -365,7 +379,6 @@ public class IdleAgent : Agent
         }
         dirVec = transform.forward;
     }
-
     void endBoundAgent()
     {
         state = States.rand;
@@ -375,35 +388,25 @@ public class IdleAgent : Agent
         }
         setMat();
     }
-
     #endregion
-
     #region outboundAgent
     Vector3 Navpos;
     void OutBoundAgent()
     {
-        float walkRadius = Random.Range(20f, 50f);
-        Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
-        Vector3 finalPosition = hit.position;
+        Vector2 Nav2D = Random.insideUnitCircle;
+        Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
         if (state == States.say) return;
         if (state == States.stop || decel)
         {
             stopEnd();
         }
         // Physics.IgnoreLayerCollision(0, 3);
-
         state = States.outbound;
         setMat();
     }
-
-
     #endregion
     //NOTE Avoid
     #region avoid 
-
     public Transform obstacle;
     public void ObstAgent(Transform obs)
     {
@@ -419,7 +422,6 @@ public class IdleAgent : Agent
         state = States.avoid;
         setMat();
     }
-
     public void endObst()
     {
         state = States.rand;
@@ -434,11 +436,8 @@ public class IdleAgent : Agent
         }
         setMat();
     }
-
     #endregion
-
     #region update
-
     void FixedUpdate()
     {
         rew = GetCumulativeReward();
@@ -455,13 +454,11 @@ public class IdleAgent : Agent
             AddReward(0.0002f);
         }
         RequestAction();
-
-        if (state != States.outbound && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
+        if (!nav.enabled && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
         {
             OutBoundAgent();
         }
     }
-
     void setRandDir()
     {
         dirVec = new Vector3(Random.insideUnitSphere.normalized.x, 0, Random.insideUnitSphere.normalized.z);
@@ -477,17 +474,15 @@ public class IdleAgent : Agent
             autoMoveSpeed = Random.Range(0.1f, moveSpeed);
             autoTurnSpeed = Random.Range(50, turnSpeed);
             yield return new WaitForSecondsRealtime(Random.Range(1, 8));
-
         }
     }
-
     #endregion
-
     #region stop
     public bool decel;
-
     IEnumerator stop(bool inte)
     {
+        if (nav.enabled)
+            nav.enabled = false;
         StopCoroutine(ChangeDir);
         ChangeDir = changedir();
         decel = true;
@@ -510,7 +505,6 @@ public class IdleAgent : Agent
             endInterest();
         }
     }
-
     IEnumerator JustStop;
     IEnumerator StopStop()
     {
@@ -526,14 +520,11 @@ public class IdleAgent : Agent
             yield return new WaitForFixedUpdate();
         }
     }
-
-
     void stopStart()
     {
         state = States.stop;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
-
     void stopEnd()
     {
         if (state == States.stop)
@@ -546,6 +537,5 @@ public class IdleAgent : Agent
         inteStop = stop(true);
         StartCoroutine(ChangeDir);
     }
-
     #endregion
 }
