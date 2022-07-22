@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+using TMPro;
+
 public class Chat
 {
     public string chat;
@@ -12,6 +15,7 @@ public class Quest
 }
 public class request : MonoBehaviour
 {
+    public TMP_Text questText;
     public bool ishate = false;
     void Start()
     {
@@ -94,8 +98,8 @@ public class request : MonoBehaviour
         }
         else
         {
-            Debug.Log(req.downloadHandler.text);
             string res = req.downloadHandler.text;
+            questText.text = res;
         }
     }
 }
