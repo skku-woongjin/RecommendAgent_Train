@@ -156,7 +156,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.sglib.demogame
-    Standalone: unity.Your Company.EDTH
+    Standalone: com.DefaultCompany.My-project
     Tizen: com.sglib.demogame
     iPhone: com.sglib.demogame
     tvOS: com.sglib.demogame
@@ -708,7 +708,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   cloudProjectId: 1b519732-ba7f-4a6f-a27a-84c83fea3542
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
