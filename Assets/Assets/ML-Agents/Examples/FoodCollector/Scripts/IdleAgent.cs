@@ -35,13 +35,9 @@ public class IdleAgent : Agent
     public States state;
     public Loc loc;
     public bool colliding = false;
-
-    bool inbound;
     public bool interested;
-
     public float turnSpeed = 300;
     public float moveSpeed = 2;
-
     public float rew;
     EnvironmentParameters m_ResetParams;
     public override void Initialize()
@@ -70,6 +66,7 @@ public class IdleAgent : Agent
         gameObject.GetComponentInChildren<Renderer>().material = blueMat;
         StartCoroutine("StopStop");
         state = States.rand;
+        loc = Loc.safe;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -98,6 +95,7 @@ public class IdleAgent : Agent
             return;
         switch (state)
         {
+            //ANCHOR RAND
             case States.rand:
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dirVec), Time.deltaTime * autoTurnSpeed * 0.01f);
                 if (m_AgentRb.velocity.sqrMagnitude > 2f) //최대속도 설정
@@ -105,7 +103,6 @@ public class IdleAgent : Agent
                     m_AgentRb.velocity *= 0.95f;
                 }
                 break;
-
             case States.inte:
                 if (nav.enabled == true)
                 {
@@ -225,14 +222,6 @@ public class IdleAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
-        if (Input.GetKey(KeyCode.D))
-        {
-            continuousActionsOut[0] = -1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            continuousActionsOut[0] = 1;
-        }
         if (state == States.avoid)
         {
             if (obstacle == null)
@@ -243,6 +232,8 @@ public class IdleAgent : Agent
             }
         }
     }
+
+    //NOTE collision
     #region collision
     void OnCollisionEnter(Collision collision)
     {
@@ -272,12 +263,14 @@ public class IdleAgent : Agent
     {
         if (other.gameObject.CompareTag("bound"))
         {
+            loc = Loc.outbound;
             OutBoundAgent();
             // AddReward(-1f);
             // EndEpisode();
         }
         else if (other.gameObject.CompareTag("aibound2"))
         {
+            loc = Loc.bound;
             BoundAgent();
         }
     }
@@ -285,12 +278,12 @@ public class IdleAgent : Agent
     {
         if (other.gameObject.CompareTag("bound"))
         {
+            loc = Loc.bound;
             // BoundAgent();
-            // Physics.IgnoreLayerCollision(0, 3, false);
         }
         else if (other.gameObject.CompareTag("aibound2"))
         {
-            inbound = true;
+            loc = Loc.safe;
             if (state == States.bound)
             {
                 endBoundAgent();
@@ -415,7 +408,7 @@ public class IdleAgent : Agent
         setMat();
     }
     #endregion
-    //NOTE Avoid
+
     #region avoid 
     public Transform obstacle;
     public void ObstAgent(Transform obs)
