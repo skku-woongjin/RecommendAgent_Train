@@ -18,9 +18,13 @@ public class request : MonoBehaviour
     public TMP_Text questText;
     public TMP_Text catQuestText;
     public bool ishate = false;
+    public string[] actionKeyword = {"jump","fly","walk","go","play","find"};
+    public string[] locationKeyword = {"Jurassicpark","gamemachine","planetland","playground","castle"};
     void Start()
     {
-        StartCoroutine(UploadKeyword("jump*monster*park"));
+        string location = locationKeyword[Random.Range(0,locationKeyword.Length)];
+        string action = actionKeyword[Random.Range(0, actionKeyword.Length)];
+        StartCoroutine(UploadKeyword("Let's*"+action+"*"+location));
     }
 
     // IEnumerator getRequest(string uri)
@@ -75,9 +79,7 @@ public class request : MonoBehaviour
     public IEnumerator UploadKeyword(string line)
     {
         //line -> 보낼 데이터
-        //string actionKeyword = "jump/fly/walk/go/play/find";
-        //string locationKeyword = "jurassic park/game machine/planet land/play ground/castle";
-        //string objectKeyword = "";
+        
 
         Quest body = new Quest();
         body.keywords = line;
