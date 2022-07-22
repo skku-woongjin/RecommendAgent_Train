@@ -39,6 +39,7 @@ public class IdleAgent : Agent
     public float turnSpeed = 300;
     public float moveSpeed = 2;
     public float rew;
+    public Transform capsule;
     EnvironmentParameters m_ResetParams;
     public override void Initialize()
     {
@@ -175,6 +176,7 @@ public class IdleAgent : Agent
             else
                 nav.enabled = true;
             nav.SetDestination(finalPosition);
+            capsule.position = finalPosition;
         }
         else
         {
@@ -376,7 +378,7 @@ public class IdleAgent : Agent
     {
         Vector2 Nav2D = Random.insideUnitCircle;
         Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
-        nav.stoppingDistance = 0;
+        nav.stoppingDistance = 2;
         if (state == States.say) return;
         if (state == States.stop || decel)
         {

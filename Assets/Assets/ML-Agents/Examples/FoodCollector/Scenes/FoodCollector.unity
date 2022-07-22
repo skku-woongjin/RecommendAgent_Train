@@ -108,15 +108,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
+    agentRadius: 0.14
+    agentHeight: 8
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
-    minRegionArea: 2
-    manualCellSize: 0
-    cellSize: 0.16666667
+    minRegionArea: 1000
+    manualCellSize: 1
+    cellSize: 0.066
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -1380,7 +1380,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ecd59def9213741058b969f699d10e8e, type: 2}
+  - {fileID: 2100000, guid: 1644c0cb0c67e314194579be857f87da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1419,7 +1419,7 @@ Transform:
   m_GameObject: {fileID: 181508122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4, y: 5.8, z: 24.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2189,8 +2189,8 @@ GameObject:
   m_Name: Sphere
   m_TagString: Sphere
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!135 &239666782
 SphereCollider:
@@ -2872,6 +2872,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6929636171082814085, guid: c80cfdd2879ab463eaa06c167b1eab20,
         type: 3}
@@ -3902,6 +3912,7 @@ MonoBehaviour:
   turnSpeed: 300
   moveSpeed: 0.12
   rew: 0
+  capsule: {fileID: 181508126}
   ownerController: {fileID: 1764351720}
   owner: {fileID: 1764351714}
   interestingObj: {fileID: 0}
@@ -4045,7 +4056,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0.4
+  m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &485967701
@@ -4780,8 +4791,8 @@ GameObject:
   m_Name: Sphere
   m_TagString: Sphere
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!135 &646646605
 SphereCollider:
@@ -8295,6 +8306,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80cfdd2879ab463eaa06c167b1eab20, type: 3}
 --- !u!1 &965405793
@@ -10649,6 +10670,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80cfdd2879ab463eaa06c167b1eab20, type: 3}
 --- !u!4 &1331414644 stripped
@@ -12388,8 +12419,8 @@ GameObject:
   m_Name: Sphere
   m_TagString: Sphere
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1724908955
 Transform:
@@ -13752,6 +13783,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GoodGroupNearDino
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80cfdd2879ab463eaa06c167b1eab20, type: 3}
