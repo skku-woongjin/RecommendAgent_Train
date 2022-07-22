@@ -116,7 +116,7 @@ public class IdleAgent : Agent
                 }
                 else
                     nav.enabled = true;
-                nav.SetDestination(interestingObj.position);
+                nav.SetDestination(removY(interestingObj.position));
                 break;
             //ANCHOR AVOID(agent)
             case States.avoid:
@@ -216,7 +216,7 @@ public class IdleAgent : Agent
     #region collision
     void OnCollisionEnter(Collision collision)
     {
-        if (!collision.collider.CompareTag("ground"))
+        if (!collision.collider.CompareTag("ground") && interestingObj != null && collision.collider.gameObject != interestingObj.gameObject)
         {
             colliding = true;
             obstacle = collision.transform;
@@ -300,7 +300,7 @@ public class IdleAgent : Agent
         if (nav.enabled && interestingObj != null)
         {
             nav.SetDestination(interestingObj.position);
-            nav.stoppingDistance = 5;
+            nav.stoppingDistance = 10;
             state = States.inte;
             setMat();
         }
@@ -319,6 +319,7 @@ public class IdleAgent : Agent
     public GameObject QuoteCanv;
     public void say()
     {
+        nav.enabled = false;
         stopStart();
         transform.rotation = Quaternion.LookRotation(-removY(transform.position - GameManager.Instance.owner.position));
         QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);

@@ -25,10 +25,10 @@ public class PetSensor : MonoBehaviour
                 agent.ObstAgent(other.transform);
             }
 
-            if (other.CompareTag("target") && (agent.interestingObj == null || other.gameObject != agent.interestingObj.gameObject))
-            {
-                agent.ObstAgent(other.transform);
-            }
+            // if (other.CompareTag("target") && (agent.interestingObj != null && other.gameObject != agent.interestingObj.gameObject))
+            // {
+            //     agent.ObstAgent(other.transform);
+            // }
         }
     }
 
