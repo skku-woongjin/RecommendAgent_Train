@@ -17,11 +17,16 @@ public class request : MonoBehaviour
 {
     public TMP_Text questText;
     public TMP_Text catQuestText;
+    public Button QuestBtn;
     public bool ishate = false;
     public string[] actionKeyword = {"jump","fly","walk","go","play","find"};
     public string[] locationKeyword = {"Jurassicpark","gamemachine","planetland","playground","castle"};
     void Start()
     {
+        QuestBtn=GameObject.FindGameObjectWithTag("NewQuestBtn").GetComponent<Button>();
+        QuestBtn.onClick.AddListener(NewQuest);
+    }
+    void NewQuest(){
         string location = locationKeyword[Random.Range(0,locationKeyword.Length)];
         string action = actionKeyword[Random.Range(0, actionKeyword.Length)];
         StartCoroutine(UploadKeyword("Let's*"+action+"*"+location));
@@ -79,8 +84,6 @@ public class request : MonoBehaviour
     public IEnumerator UploadKeyword(string line)
     {
         //line -> 보낼 데이터
-        
-
         Quest body = new Quest();
         body.keywords = line;
         string bodyData = JsonUtility.ToJson(body);
@@ -105,5 +108,7 @@ public class request : MonoBehaviour
             questText.text = res;
             catQuestText.text = res;
         }
+
+
     }
 }
