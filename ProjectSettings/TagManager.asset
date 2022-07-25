@@ -23,6 +23,7 @@ TagManager:
   - badFood
   - target
   - NewQuestBtn
+  - MapOpenBtn
   layers:
   - Default
   - TransparentFX
