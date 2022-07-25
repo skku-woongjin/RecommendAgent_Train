@@ -12,6 +12,17 @@ TagManager:
   - refill
   - tree
   - spring
+  - Sphere
+  - agent
+  - Obstacle
+  - aibound2
+  - aibound
+  - bound
+  - food
+  - wall
+  - badFood
+  - target
+  - NewQuestBtn
   layers:
   - Default
   - TransparentFX
