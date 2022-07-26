@@ -19,6 +19,8 @@ public class SaySomething : MonoBehaviour
     }
     public void say(string line)
     {
+        bubbleImg.color = Color.white;
+        StopAllCoroutines();
         bubble.SetActive(false);
         if (censor)
         {
