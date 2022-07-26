@@ -105,7 +105,7 @@ public class request : MonoBehaviour
         else
         {
             string res = req.downloadHandler.text;
-            questText.text = res+"\n(Keywords: "+line+")";
+            questText.text = res+"\n(Keywords: "+line.Replace("*"," ")+")";
             catQuestText.text = res;
         }
 
