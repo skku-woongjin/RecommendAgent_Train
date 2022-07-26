@@ -622,8 +622,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.5
-  m_fontSizeBase: 0.5
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3314,8 +3314,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 24587905}
-  - {fileID: 1918618244}
-  - {fileID: 965405794}
   m_Father: {fileID: 480036066}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3511,7 +3509,7 @@ MonoBehaviour:
   ownerController: {fileID: 1764351720}
   owner: {fileID: 1764351714}
   interestingObj: {fileID: 0}
-  QuoteCanv: {fileID: 424256071}
+  QuoteCanv: {fileID: 562040765}
   obstacle: {fileID: 0}
   decel: 0
 --- !u!114 &480036071
@@ -3830,12 +3828,12 @@ GameObject:
   - component: {fileID: 562040768}
   - component: {fileID: 562040767}
   m_Layer: 10
-  m_Name: QuestPanel
+  m_Name: CatQuestPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &562040766
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3850,13 +3848,15 @@ RectTransform:
   m_Children:
   - {fileID: 981942455}
   - {fileID: 1188158377}
+  - {fileID: 1918618244}
+  - {fileID: 965405794}
   m_Father: {fileID: 1223159333}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -540}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &562040767
 MonoBehaviour:
@@ -3980,7 +3980,7 @@ GameObject:
   m_Component:
   - component: {fileID: 574839117}
   m_Layer: 10
-  m_Name: MinimapUtil
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7644,19 +7644,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965405793}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 112673777}
-  m_Father: {fileID: 424256075}
-  m_RootOrder: 2
+  m_Father: {fileID: 562040766}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -47.18, y: 1.7}
-  m_SizeDelta: {x: 2, y: 0.7}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 382, y: -397}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &965405795
 MonoBehaviour:
@@ -7714,7 +7714,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 424256071}
+      - m_Target: {fileID: 562040765}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -7799,7 +7799,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 29, y: -171}
+  m_AnchoredPosition: {x: 29, y: -229}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &981942456
@@ -7822,7 +7822,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uB098\uC05C \uB9D0\uC744 \uD558\uACE0 \uC788\uB294 \uAC83 \uAC19\uC544..
+    \uB2E4\uB978 \uB370 \uAC00\uC790 "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f33e79cbb88f24023a19cc88fad7c0bb, type: 2}
   m_sharedMaterial: {fileID: 178728563622156986, guid: f33e79cbb88f24023a19cc88fad7c0bb,
@@ -7858,7 +7859,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -7886,7 +7887,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 10.746961, z: 1.0653381, w: -0.49116325}
+  m_margin: {x: 0, y: 2.5203981, z: 24.239014, w: 11.369249}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8076,8 +8077,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.5
-  m_fontSizeBase: 0.5
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8852,7 +8853,7 @@ RectTransform:
   m_GameObject: {fileID: 1188158376}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8}
-  m_LocalScale: {x: 50, y: 7, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 562040766}
@@ -8861,7 +8862,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -86, y: -161}
-  m_SizeDelta: {x: 27, y: 45}
+  m_SizeDelta: {x: 1704, y: 527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1188158378
 MonoBehaviour:
@@ -12030,19 +12031,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918618243}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1012950929}
-  m_Father: {fileID: 424256075}
-  m_RootOrder: 1
+  m_Father: {fileID: 562040766}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -47.2, y: 2.47}
-  m_SizeDelta: {x: 2, y: 0.7}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -382, y: -397}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1918618245
 MonoBehaviour:
@@ -12088,7 +12089,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 424256071}
+      - m_Target: {fileID: 562040765}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6

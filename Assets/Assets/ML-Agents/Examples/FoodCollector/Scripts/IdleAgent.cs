@@ -328,7 +328,7 @@ public class IdleAgent : Agent
         nav.enabled = false;
         stopStart();
         transform.rotation = Quaternion.LookRotation(-removY(transform.position - GameManager.Instance.owner.position));
-        QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
+        // QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
         QuoteCanv.SetActive(true);
         state = States.say;
     }
