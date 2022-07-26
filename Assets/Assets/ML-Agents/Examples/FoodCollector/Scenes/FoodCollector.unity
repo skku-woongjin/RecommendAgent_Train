@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366753, g: 0.48427093, b: 0.5645238, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6912,7 +6912,7 @@ MonoBehaviour:
     IsHidden: 0
 --- !u!4 &684351071
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -14046,6 +14046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a556a5536a54a8481f5b830a5e58d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1900401367}
   speed: 0.7
   turnSpd: 10
   bound: {fileID: 1764351714}
@@ -14753,6 +14754,12 @@ LightingSettings:
 --- !u!4 &1900401365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1586523481853375397, guid: a41ab576c3b016540aed7505ecaf832f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1026480263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1900401367 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4675961715686533599, guid: a41ab576c3b016540aed7505ecaf832f,
     type: 3}
   m_PrefabInstance: {fileID: 1026480263}
   m_PrefabAsset: {fileID: 0}

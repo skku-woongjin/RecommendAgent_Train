@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class OwnerController : MonoBehaviour
 {
+    public Animator animator;
     public float speed;
     public float turnSpd;
     public Transform bound;
@@ -46,6 +47,16 @@ public class OwnerController : MonoBehaviour
         // }
         // if (nav.destination != null)
         //     nav.CalculatePath(nav.destination, navPath);
+        animator.SetFloat(Const.Speed, rb.velocity.sqrMagnitude);
+        if (rb.velocity.sqrMagnitude > 1)
+        {
+            animator.SetBool(Const.Moving, true);
+
+        }
+        else
+        {
+            animator.SetBool(Const.Moving, false);
+        }
         if (GameManager.Instance.ingroup || GameManager.Instance.idleAgent.state != IdleAgent.States.say)
         {
             // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
