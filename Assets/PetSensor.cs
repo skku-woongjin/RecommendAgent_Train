@@ -5,12 +5,6 @@ using UnityEngine;
 public class PetSensor : MonoBehaviour
 {
     public IdleAgent agent;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     private void FixedUpdate()
     {
         transform.position = agent.transform.position + Vector3.forward * 0.3f;
@@ -25,10 +19,10 @@ public class PetSensor : MonoBehaviour
                 agent.ObstAgent(other.transform);
             }
 
-            // if (other.CompareTag("target") && (agent.interestingObj != null && other.gameObject != agent.interestingObj.gameObject))
-            // {
-            //     agent.ObstAgent(other.transform);
-            // }
+            if (other.CompareTag("target"))
+            {
+                agent.obstacle = other.transform;
+            }
         }
     }
 

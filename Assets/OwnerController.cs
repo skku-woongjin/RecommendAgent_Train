@@ -76,11 +76,13 @@ public class OwnerController : MonoBehaviour
             //move
             if (Input.GetKey(KeyCode.UpArrow))
             {
+                animator.transform.localRotation = Quaternion.identity;
                 rb.AddForce(bound.forward * speed, ForceMode.VelocityChange);
                 // transform.position += transform.forward * speed * 0.5f;
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
+                animator.transform.localRotation = Quaternion.LookRotation(Vector3.back);
                 rb.AddForce(-bound.forward * speed, ForceMode.VelocityChange);
             }
             if (Input.GetKey(KeyCode.RightArrow))

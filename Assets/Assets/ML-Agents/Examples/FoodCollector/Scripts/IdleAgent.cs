@@ -117,7 +117,8 @@ public class IdleAgent : Agent
                 }
                 else
                     nav.enabled = true;
-                nav.SetDestination(removY(interestingObj.position));
+                if (interestingObj != null)
+                    nav.SetDestination(removY(interestingObj.position));
                 break;
             //ANCHOR AVOID(agent)
             case States.avoid:
@@ -310,7 +311,10 @@ public class IdleAgent : Agent
     public void endInterest()
     {
         interested = false;
-        ObstAgent(interestingObj);
+        if (obstacle != null && obstacle.gameObject == interestingObj.gameObject)
+        {
+            ObstAgent(obstacle);
+        }
         interestingObj = null;
         nav.enabled = false;
         setMat();
