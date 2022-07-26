@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.UI;
 
 public class ConvGroup : MonoBehaviour
 {
@@ -8,7 +10,35 @@ public class ConvGroup : MonoBehaviour
     public Material UDangTangMat;
     public Material CommonMat;
     public GameObject Sphere;
-    public GameObject[] Users;
+    public SaySomething[] users;
+    public string convFilename;
+    public Canvas canvas;
+    List<Dictionary<string, object>> data_Dialog;
+
+    void Start()
+    {
+        canvas.worldCamera = GameManager.Instance.cam.GetComponent<Camera>();
+        if (isbad)
+        {
+            Sphere.GetComponent<Renderer>().material = UDangTangMat;
+        }
+        else
+        {
+            Sphere.GetComponent<Renderer>().material = CommonMat;
+        }
+        users = new SaySomething[5];
+        if (convFilename.Length > 4)
+            data_Dialog = CSVReader.Read(convFilename);
+        int i = 0;
+        foreach (Transform u in transform)
+        {
+            if (u.GetComponent<SaySomething>() == null)
+                break;
+            users[i] = u.GetComponent<SaySomething>();
+            i++;
+
+        }
+    }
 
     public void hideSphere()
     {
@@ -23,16 +53,27 @@ public class ConvGroup : MonoBehaviour
 
     public void join()
     {
-        foreach (Transform u in transform)
+        StartCoroutine(startConv());
+    }
+
+    IEnumerator startConv()
+    {
+        if (data_Dialog != null)
         {
-            if (u.GetComponent<SaySomething>() != null)
-                u.GetComponent<SaySomething>().say("안녕");
+
+            for (int i = 0; i < data_Dialog.Count; i++)
+            {
+                users[Int32.Parse(data_Dialog[i]["user"].ToString())].say(data_Dialog[i]["line"].ToString());
+                yield return new WaitForSecondsRealtime(UnityEngine.Random.Range(2, 3.5f));
+            }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void clickButton()
     {
-
+        if (isbad)
+            GameManager.Instance.owner.GetComponent<JoinGroup>().warn();
+        else
+            GameManager.Instance.owner.GetComponent<JoinGroup>().join();
     }
 }
