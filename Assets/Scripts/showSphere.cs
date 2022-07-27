@@ -31,5 +31,9 @@ public class showSphere : MonoBehaviour
             Physics.IgnoreCollision(transform.parent.GetComponent<Collider>(), GameManager.Instance.owner.GetComponent<Collider>(), false);
             GameManager.Instance.owner.GetComponent<JoinGroup>().sep();
         }
+        if (other.gameObject.CompareTag("agent"))
+        {
+            Physics.IgnoreCollision(transform.parent.GetComponent<Collider>(), GameManager.Instance.idleAgent.GetComponent<Collider>(), false);
+        }
     }
 }

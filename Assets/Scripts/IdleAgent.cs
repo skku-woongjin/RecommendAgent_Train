@@ -329,6 +329,8 @@ public class IdleAgent : Agent
         {
             ObstAgent(obstacle);
         }
+        if (interestingObj != null)
+            interestingObj.tag = "Obstacle";
         interestingObj = null;
         nav.enabled = false;
         setMat();
@@ -341,6 +343,7 @@ public class IdleAgent : Agent
     public void say()
     {
         nav.enabled = false;
+        interested = false;
         stopStart();
         transform.rotation = Quaternion.LookRotation(-removY(transform.position - GameManager.Instance.owner.position));
         // QuoteCanv.transform.rotation = Quaternion.LookRotation(QuoteCanv.transform.position - GameManager.Instance.cam.position);
