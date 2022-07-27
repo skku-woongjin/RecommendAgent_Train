@@ -47,7 +47,7 @@ public class JoinGroup : MonoBehaviour
     public void sep()
     {
         if (GameManager.Instance.curGroup.isbad)
-            GameManager.Instance.idleAgent.endObst();
+            GameManager.Instance.idleAgent.endSay();
         transform.SetParent(GameManager.Instance.transform);
         GameManager.Instance.ingroup = false;
     }

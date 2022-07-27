@@ -29,8 +29,6 @@ public class PetSensor : MonoBehaviour
             {
                 if (agent.state == IdleAgent.States.inte)
                     agent.obstacle = other.transform;
-                else
-                    agent.ObstAgent(other.transform);
             }
         }
     }

@@ -255,11 +255,17 @@ public class IdleAgent : Agent
     #region collision
     void OnCollisionEnter(Collision collision)
     {
-        if (!collision.collider.CompareTag("ground") && interestingObj != null && collision.collider.gameObject != interestingObj.gameObject)
+        if (!collision.collider.CompareTag("ground"))
         {
+            if (interestingObj != null && collision.collider.gameObject == interestingObj.gameObject)
+            {
+                Debug.Log("!!");
+                return;
+            }
             colliding = true;
             obstacle = collision.transform;
             ObstAgent(obstacle);
+            Debug.Log("obst");
         }
     }
     private void OnCollisionExit(Collision other)
@@ -332,6 +338,8 @@ public class IdleAgent : Agent
     // bool entered;
     public void enterGroup()
     {
+        if (interested)
+            endInterest();
         start = true;
         nav.enabled = true;
         NavMeshHit hit;
@@ -401,15 +409,14 @@ public class IdleAgent : Agent
     public void endSay()
     {
         state = States.rand;
-        obstacle = null;
+        if (loc == Loc.outbound)
+        {
+            OutBoundAgent();
+        }
         if (interested)
         {
             interest();
         }
-        // if (!inbound)
-        // {
-        //     BoundAgent();
-        // }
         setMat();
     }
     #endregion
@@ -487,7 +494,7 @@ public class IdleAgent : Agent
     }
     public void endObst()
     {
-        if (state == States.outbound || state == States.say || state == States.enterGroup)
+        if (state == States.say || state == States.enterGroup)
         {
             return;
         }
