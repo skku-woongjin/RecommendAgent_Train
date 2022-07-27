@@ -10,6 +10,7 @@ public class CheckLocation : MonoBehaviour
     public int wallId;
     public string location;
     public TMP_Text locationText;
+    public request newRequest;
     //planet -> playground => 1 (x, +)
     //playground - game box => 2 (z, +)
     //game box - dino => 3 (x, -)
@@ -34,7 +35,7 @@ public class CheckLocation : MonoBehaviour
                     location = "playground";
                 }
                 else{
-                    location = "planet";
+                    location = "planetland";
                 }
                 locationText.text = location;
             }
@@ -43,7 +44,7 @@ public class CheckLocation : MonoBehaviour
                 playerDirection = GameManager.Instance.owner.GetComponent<Rigidbody>().velocity.z;
                 if (playerDirection >= 0)
                 {
-                    location = "gamebox";
+                    location = "gamemachine";
                 }
                 else
                 {
@@ -56,11 +57,11 @@ public class CheckLocation : MonoBehaviour
                 playerDirection = GameManager.Instance.owner.GetComponent<Rigidbody>().velocity.x;
                 if (playerDirection < 0)
                 {
-                    location = "dino";
+                    location = "Jurassicpark";
                 }
                 else
                 {
-                    location = "gamebox";
+                    location = "gamemachine";
                 }
                 locationText.text = location;
             }
@@ -69,15 +70,15 @@ public class CheckLocation : MonoBehaviour
                 playerDirection = GameManager.Instance.owner.GetComponent<Rigidbody>().velocity.z;
                 if (playerDirection < 0)
                 {
-                    location = "planet";
+                    location = "planetland";
                 }
                 else
                 {
-                    location = "dino";
+                    location = "Jurassicpark";
                 }
                 locationText.text = location;
             }
-            
+            newRequest.CheckQuestSuccess();
             
         }
     }

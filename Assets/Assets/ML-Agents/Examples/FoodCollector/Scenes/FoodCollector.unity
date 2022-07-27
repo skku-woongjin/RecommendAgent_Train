@@ -902,6 +902,7 @@ MonoBehaviour:
   wallId: 4
   location: 
   locationText: {fileID: 718195623}
+  newRequest: {fileID: 874421062}
 --- !u!4 &130974324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5277231402344388914, guid: d6031cb0dc0ccc04e92feef60c7941fe,
@@ -1641,6 +1642,7 @@ MonoBehaviour:
   wallId: 3
   location: 
   locationText: {fileID: 718195623}
+  newRequest: {fileID: 874421062}
 --- !u!1001 &266681215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1912,6 +1914,7 @@ MonoBehaviour:
   wallId: 1
   location: 
   locationText: {fileID: 718195623}
+  newRequest: {fileID: 874421062}
 --- !u!1 &323417844
 GameObject:
   m_ObjectHideFlags: 0
@@ -6952,8 +6955,9 @@ Transform:
   - {fileID: 833994217}
   - {fileID: 1233036902}
   - {fileID: 2050241093}
+  - {fileID: 1023275243}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &767624556
 PrefabInstance:
@@ -7221,7 +7225,7 @@ Transform:
   - {fileID: 238616079}
   - {fileID: 126041689}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &828515110 stripped
 Transform:
@@ -7428,6 +7432,7 @@ MonoBehaviour:
   QuestBtn: {fileID: 0}
   ishate: 0
   quest_panel: {fileID: 562040765}
+  currentLocation: {fileID: 718195623}
   actionKeyword:
   - jump
   - fly
@@ -8607,17 +8612,17 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 751616681}
     m_Modifications:
     - target: {fileID: 7356624034000510789, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_Name
-      value: NPCmodel
+      value: NPCmodelKid
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
@@ -8637,17 +8642,17 @@ PrefabInstance:
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.67
+      value: 1.817936
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.69
+      value: 1.8243197
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.248274
+      value: 9.452809
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
@@ -8657,17 +8662,17 @@ PrefabInstance:
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8723862130533492862, guid: d5c6f8a469913a844848974b1ae56793,
         type: 3}
@@ -9042,6 +9047,7 @@ MonoBehaviour:
   wallId: 2
   location: 
   locationText: {fileID: 718195623}
+  newRequest: {fileID: 874421062}
 --- !u!4 &1091218183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 94e8b543ccfce214cbe3536377799049,
@@ -11989,6 +11995,7 @@ MonoBehaviour:
   QuestBtn: {fileID: 0}
   ishate: 0
   quest_panel: {fileID: 0}
+  currentLocation: {fileID: 0}
   actionKeyword:
   - jump
   - fly
@@ -12467,6 +12474,7 @@ GameObject:
   - component: {fileID: 1918618247}
   - component: {fileID: 1918618246}
   - component: {fileID: 1918618245}
+  - component: {fileID: 1918618248}
   m_Layer: 5
   m_Name: OK
   m_TagString: Untagged
@@ -12539,7 +12547,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 562040765}
+      - m_Target: {fileID: 1918618243}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -12554,6 +12562,42 @@ MonoBehaviour:
       - m_Target: {fileID: 480036070}
         m_TargetAssemblyTypeName: IdleAgent, Assembly-CSharp
         m_MethodName: endSay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 874421062}
+        m_TargetAssemblyTypeName: request, Assembly-CSharp
+        m_MethodName: NewQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 965405793}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 874421062}
+        m_TargetAssemblyTypeName: request, Assembly-CSharp
+        m_MethodName: CheckQuestSuccess
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12601,6 +12645,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918618243}
   m_CullTransparentMesh: 1
+--- !u!114 &1918618248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918618243}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9622c04013a941b41a1497d4c9519092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  okButton: {fileID: 0}
+  noButton: {fileID: 0}
+  questAcceptText: {fileID: 0}
 --- !u!4 &1930442509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5277231402344388914, guid: d6031cb0dc0ccc04e92feef60c7941fe,
@@ -13408,7 +13467,7 @@ PrefabInstance:
     - target: {fileID: 5982951722603140048, guid: 9bed1c3c84f3e154c84391d61fd5e899,
         type: 3}
       propertyPath: m_Name
-      value: NPCmodel2
+      value: NPCmodelKid2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bed1c3c84f3e154c84391d61fd5e899, type: 3}
