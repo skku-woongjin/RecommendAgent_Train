@@ -25,6 +25,9 @@ public class showSphere : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        Transform inGroupUser1 = GameManager.Instance.curGroup.transform.GetChild(0);
+        Transform inGroupUser2 = GameManager.Instance.curGroup.transform.GetChild(1);
+        Transform inGroupUser3 = GameManager.Instance.curGroup.transform.GetChild(2);
         if (other.gameObject.CompareTag("Player"))
         {
             Sphere.SetActive(true);
@@ -35,5 +38,8 @@ public class showSphere : MonoBehaviour
         {
             Physics.IgnoreCollision(transform.parent.GetComponent<Collider>(), GameManager.Instance.idleAgent.GetComponent<Collider>(), false);
         }
+        inGroupUser1.gameObject.layer = 3;
+        inGroupUser2.gameObject.layer = 3;
+        inGroupUser3.gameObject.layer = 3;
     }
 }
