@@ -13,6 +13,7 @@ public class IdleAgent : Agent
     public Material redMat;
     public Material greenMat;
     public Material yellowMat;
+    public bool showColor;
     public enum States
     {
         rand,
@@ -41,6 +42,7 @@ public class IdleAgent : Agent
     public float rew;
     public Transform capsule;
     EnvironmentParameters m_ResetParams;
+
     public override void Initialize()
     {
         nav = GetComponent<NavMeshAgent>();
@@ -48,10 +50,13 @@ public class IdleAgent : Agent
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         inteStop = stop(true);
         ChangeDir = changedir();
+        miauCouroutine = playInteSound();
         rend = gameObject.GetComponentInChildren<Renderer>();
+        Physics.IgnoreCollision(GetComponent<Collider>(), owner.GetComponent<Collider>());
     }
     public OwnerController ownerController;
     IEnumerator ChangeDir;
+    IEnumerator miauCouroutine;
     public override void OnEpisodeBegin()
     {
         Physics.IgnoreLayerCollision(3, 8);
@@ -118,7 +123,7 @@ public class IdleAgent : Agent
                 else
                     nav.enabled = true;
                 if (interestingObj != null)
-                    nav.SetDestination(removY(interestingObj.position));
+                    nav.SetDestination(removY(interestingObj.GetComponent<Collider>().ClosestPoint(transform.position)));
                 break;
             //ANCHOR AVOID(agent)
             case States.avoid:
@@ -266,6 +271,8 @@ public class IdleAgent : Agent
     Renderer rend;
     void setMat()
     {
+        if (!showColor)
+            return;
         if (state != States.outbound)
         {
             GetComponent<NavMeshAgent>().enabled = false;
@@ -295,6 +302,11 @@ public class IdleAgent : Agent
     public void interest()
     {
         interested = true;
+        if (!miauing)
+        {
+            miauCouroutine = playInteSound();
+            StartCoroutine(miauCouroutine);
+        }
         if (state <= States.inte)
         {
             state = States.inte;
@@ -303,7 +315,7 @@ public class IdleAgent : Agent
         if (nav.enabled && interestingObj != null)
         {
             nav.SetDestination(interestingObj.position);
-            nav.stoppingDistance = 10;
+            nav.stoppingDistance = 0.5f;
             state = States.inte;
             setMat();
         }
@@ -319,6 +331,7 @@ public class IdleAgent : Agent
         nav.enabled = false;
         setMat();
     }
+
     #endregion
     //NOTE say
     #region say
@@ -483,7 +496,9 @@ public class IdleAgent : Agent
         stopStart();
         if (inte)
         {
-            yield return new WaitForSecondsRealtime(Random.Range(3f, 4.5f));
+            if (interestingObj != null)
+                transform.rotation = Quaternion.LookRotation(removY(interestingObj.position - transform.position));
+            yield return new WaitForSecondsRealtime(Random.Range(3f, 5f));
         }
         else
             yield return new WaitForSecondsRealtime(Random.Range(1.5f, 4));
@@ -491,6 +506,8 @@ public class IdleAgent : Agent
         if (inte)
         {
             endInterest();
+            StopCoroutine(miauCouroutine);
+            miauing = false;
         }
     }
     IEnumerator JustStop;
@@ -525,5 +542,30 @@ public class IdleAgent : Agent
         inteStop = stop(true);
         StartCoroutine(ChangeDir);
     }
+    #endregion
+
+    //NOTE sound
+    #region playsound
+    public AudioSource angrySound;
+    public AudioSource inteSound;
+
+    void playAngrySound()
+    {
+        angrySound.Play();
+    }
+
+    bool miauing;
+    IEnumerator playInteSound()
+    {
+        Debug.Log("coroutine called!");
+        miauing = true;
+        while (interested)
+        {
+            inteSound.Play();
+            yield return new WaitForSecondsRealtime(Random.Range(0.6f, 3f));
+        }
+        miauing = false;
+    }
+
     #endregion
 }

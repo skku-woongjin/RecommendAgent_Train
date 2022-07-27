@@ -12,16 +12,24 @@ public class PetSensor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+
         if (!other.Equals(agent.interestingObj))
         {
-            if (other.CompareTag("wall") || other.CompareTag("Obstacle") || other.CompareTag("Player"))
+            if (other.CompareTag("Player") && agent.state == IdleAgent.States.rand)
+            {
+                agent.ObstAgent(other.transform);
+            }
+            if (other.CompareTag("wall") || other.CompareTag("Obstacle"))
             {
                 agent.ObstAgent(other.transform);
             }
 
             if (other.CompareTag("target"))
             {
-                agent.obstacle = other.transform;
+                if (agent.state == IdleAgent.States.inte)
+                    agent.obstacle = other.transform;
+                else
+                    agent.ObstAgent(other.transform);
             }
         }
     }
