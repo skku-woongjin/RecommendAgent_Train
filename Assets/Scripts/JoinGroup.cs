@@ -22,8 +22,9 @@ public class JoinGroup : MonoBehaviour
         Transform t = GameManager.Instance.curGroup.transform.GetChild(0);
         if (!GameManager.Instance.curGroup.isbad)
         {
-            GameManager.Instance.idleAgent.endObst();
+            // GameManager.Instance.idleAgent.endObst();
             Physics.IgnoreCollision(pet.GetComponent<Collider>(), t.parent.GetComponent<Collider>(), true);
+            GameManager.Instance.idleAgent.enterGroup();
         }
         GameManager.Instance.ingroup = true;
         transform.SetParent(t.parent);
@@ -32,6 +33,7 @@ public class JoinGroup : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(transform.forward * 3000, ForceMode.Impulse);
         t.parent.GetComponent<ConvGroup>().hideSphere();
         t.parent.GetComponent<ConvGroup>().join();
+
         // Physics.IgnoreCollision(GetComponent<Collider>(), t.parent.GetComponent<Collider>(), false);
     }
 
