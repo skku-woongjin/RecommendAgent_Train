@@ -24,11 +24,13 @@ TagManager:
   - target
   - NewQuestBtn
   - MapOpenBtn
+  - pyramid
+  - stone
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - invisibleBubble
   - Water
   - UI
   - 

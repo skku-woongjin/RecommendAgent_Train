@@ -98,6 +98,8 @@ public class IdleAgent : Agent
     NavMeshAgent nav;
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
+        if (state == States.say || state == States.stop || decel)
+            return;
         //ANCHOR ENTERGROUP
         if (state == States.enterGroup)
         {
@@ -128,8 +130,6 @@ public class IdleAgent : Agent
             }
 
         }
-        if (state == States.say || state == States.stop || decel)
-            return;
         switch (state)
         {
             //ANCHOR RAND
@@ -389,6 +389,7 @@ public class IdleAgent : Agent
     public GameObject QuoteCanv;
     public void say()
     {
+        start = true;
         nav.enabled = false;
         interested = false;
         stopStart();
@@ -417,7 +418,7 @@ public class IdleAgent : Agent
     #region boundAgent
     void BoundAgent()
     {
-        if (state == States.enterGroup)
+        if (state == States.enterGroup || state == States.say)
             return;
         if (interested) return;
         if (state <= States.bound || state == States.outbound)
@@ -447,7 +448,7 @@ public class IdleAgent : Agent
     Vector3 Navpos;
     void OutBoundAgent()
     {
-        if (GameManager.Instance.ingroup)
+        if (GameManager.Instance.ingroup && !GameManager.Instance.curGroup.isbad)
         {
             enterGroup();
             return;
@@ -486,6 +487,10 @@ public class IdleAgent : Agent
     }
     public void endObst()
     {
+        if (state == States.outbound || state == States.say || state == States.enterGroup)
+        {
+            return;
+        }
         state = States.rand;
         obstacle = null;
         if (loc == Loc.outbound)
