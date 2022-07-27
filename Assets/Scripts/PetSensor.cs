@@ -10,7 +10,7 @@ public class PetSensor : MonoBehaviour
         transform.position = agent.transform.position + Vector3.forward * 0.3f;
         transform.rotation = agent.transform.rotation;
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
 
         if (!other.Equals(agent.interestingObj))
@@ -21,7 +21,8 @@ public class PetSensor : MonoBehaviour
             }
             if (other.CompareTag("wall") || other.CompareTag("Obstacle"))
             {
-                agent.ObstAgent(other.transform);
+                if (!GameManager.Instance.ingroup)
+                    agent.ObstAgent(other.transform);
             }
 
             if (other.CompareTag("target"))

@@ -22,7 +22,8 @@ public class IdleAgent : Agent
         bound,
         avoid,
         outbound,
-        say
+        say,
+        enterGroup
     }
 
     public enum Loc
@@ -97,6 +98,36 @@ public class IdleAgent : Agent
     NavMeshAgent nav;
     public void MoveAgent(ActionBuffers actionBuffers) // 매 프레임 호출 
     {
+        //ANCHOR ENTERGROUP
+        if (state == States.enterGroup)
+        {
+
+            if (nav.enabled == true)
+            {
+                if (checkNavEnd(nav))
+                {
+                    nav.enabled = false;
+                }
+                return;
+            }
+            else
+            {
+                // Debug.Log(Vector3.Distance(GameManager.Instance.curGroup.transform.position, transform.position));
+                if (Vector3.Distance(GameManager.Instance.curGroup.transform.position, transform.position) > 1.5f)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(removY(GameManager.Instance.curGroup.transform.position - transform.position)), Time.deltaTime * autoTurnSpeed * 0.1f);
+                    if (m_AgentRb.velocity.sqrMagnitude > 3f) //최대속도 설정
+                    {
+                        m_AgentRb.velocity *= 0.95f;
+                    }
+                }
+                else
+                {
+                    state = States.rand;
+                }
+            }
+
+        }
         if (state == States.say || state == States.stop || decel)
             return;
         switch (state)
@@ -124,7 +155,7 @@ public class IdleAgent : Agent
                     nav.enabled = true;
                 if (interestingObj != null)
                     nav.SetDestination(removY(interestingObj.GetComponent<Collider>().ClosestPoint(transform.position)));
-                break;
+                return;
             //ANCHOR AVOID(agent)
             case States.avoid:
                 float rot = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
@@ -296,11 +327,27 @@ public class IdleAgent : Agent
                 break;
         }
     }
+
+    //NOTE entergroup
+    // bool entered;
+    public void enterGroup()
+    {
+        start = true;
+        nav.enabled = true;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(GameManager.Instance.curGroup.GetComponent<Collider>().ClosestPoint(transform.position), out hit, 100, 1);
+        Vector3 finalPosition = hit.position;
+        state = States.enterGroup;
+        if (GameManager.Instance.curGroup != null)
+            nav.SetDestination(removY(finalPosition));
+
+    }
     //NOTE interest
     #region interest
     public Transform interestingObj;
     public void interest()
     {
+        if (state == States.enterGroup) return;
         interested = true;
         if (!miauing)
         {
@@ -370,7 +417,8 @@ public class IdleAgent : Agent
     #region boundAgent
     void BoundAgent()
     {
-        // inbound = false;
+        if (state == States.enterGroup)
+            return;
         if (interested) return;
         if (state <= States.bound || state == States.outbound)
         {
@@ -399,6 +447,11 @@ public class IdleAgent : Agent
     Vector3 Navpos;
     void OutBoundAgent()
     {
+        if (GameManager.Instance.ingroup)
+        {
+            enterGroup();
+            return;
+        }
         if (state == States.say || interested) return;
         Vector2 Nav2D = Random.insideUnitCircle;
         Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
@@ -417,7 +470,7 @@ public class IdleAgent : Agent
     public Transform obstacle;
     public void ObstAgent(Transform obs)
     {
-        if (state == States.outbound || state == States.say)
+        if (state == States.outbound || state == States.say || state == States.enterGroup)
         {
             return;
         }
@@ -448,8 +501,14 @@ public class IdleAgent : Agent
     #endregion
     //NOTE update
     #region update
+
+    bool start = false;
     void FixedUpdate()
     {
+        // if (start)
+        // {
+        //     Debug.Log(state);
+        // }
         rew = GetCumulativeReward();
         if (colliding)
         {
@@ -464,10 +523,10 @@ public class IdleAgent : Agent
             AddReward(0.0002f);
         }
         RequestAction();
-        if (!nav.enabled && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
-        {
-            OutBoundAgent();
-        }
+        // if (!nav.enabled && state != States.say && Vector3.SqrMagnitude(owner.position - transform.position) > 500)
+        // {
+        //     OutBoundAgent();
+        // }
     }
     void setRandDir()
     {

@@ -109,7 +109,7 @@ NavMeshSettings:
     serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.14
-    agentHeight: 8
+    agentHeight: 13.43
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
@@ -9098,8 +9098,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.2197285, y: 4.7454395, z: 3.494133}
-  m_Center: {x: -0.07171917, y: 1.8727179, z: 0.5981611}
+  m_Size: {x: 2.1581817, y: 4.0515814, z: 2.23956}
+  m_Center: {x: 0.06957698, y: 2.0739174, z: -0.056965828}
 --- !u!1 &1182364634
 GameObject:
   m_ObjectHideFlags: 0
@@ -10994,7 +10994,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1537173291 stripped
 GameObject:
@@ -12816,6 +12816,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoodGroupNearDino
       objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80cfdd2879ab463eaa06c167b1eab20, type: 3}
 --- !u!1001 &1954863355
@@ -13122,7 +13127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977280100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.03, z: 5.82}
+  m_LocalPosition: {x: 0, y: -1.03, z: 6.21}
   m_LocalScale: {x: 2.3324003, y: 17, z: 17}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -13141,7 +13146,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1979297244 stripped
 Transform:
@@ -13722,8 +13727,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.0000005, y: 4.089268, z: 2.679566}
-  m_Center: {x: 0.000023305416, y: 2.0611565, z: 0.29903132}
+  m_Size: {x: 3.0000007, y: 4.0892687, z: 1.9976162}
+  m_Center: {x: 0.00002336502, y: 2.0611567, z: -0.041945934}
 --- !u!4 &2141452388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4327954035200056, guid: 4b7aa0f46b7242346954f92c19764358,

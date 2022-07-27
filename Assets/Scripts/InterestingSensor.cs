@@ -10,7 +10,8 @@ public class InterestingSensor : MonoBehaviour
     public IdleAgent agent;
     private void OnTriggerEnter(Collider other)
     {
-
+        if (GameManager.Instance.ingroup)
+            return;
         if (other.tag == "target")
         {
             agent.interestingObj = other.transform;
@@ -20,9 +21,9 @@ public class InterestingSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform == agent.interestingObj)
-        {
-            agent.endInterest();
-        }
+        // if (other.transform == agent.interestingObj)
+        // {
+        //     agent.endInterest();
+        // }
     }
 }
