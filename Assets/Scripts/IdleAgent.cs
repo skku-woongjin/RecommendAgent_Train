@@ -323,7 +323,9 @@ public class IdleAgent : Agent
     public void endInterest()
     {
         interested = false;
-        if (obstacle != null && obstacle.gameObject == interestingObj.gameObject)
+        if (loc == Loc.outbound)
+            OutBoundAgent();
+        else if (obstacle != null && obstacle.gameObject == interestingObj.gameObject)
         {
             ObstAgent(obstacle);
         }
@@ -366,6 +368,7 @@ public class IdleAgent : Agent
     void BoundAgent()
     {
         // inbound = false;
+        if (interested) return;
         if (state <= States.bound || state == States.outbound)
         {
             if (state == States.stop || decel)
@@ -393,10 +396,10 @@ public class IdleAgent : Agent
     Vector3 Navpos;
     void OutBoundAgent()
     {
+        if (state == States.say || interested) return;
         Vector2 Nav2D = Random.insideUnitCircle;
         Navpos = Random.Range(2, 6.0f) * new Vector3(Nav2D.x, 0, Nav2D.y) + owner.forward * 5;
         nav.stoppingDistance = 2;
-        if (state == States.say) return;
         if (state == States.stop || decel)
         {
             stopEnd();
@@ -429,6 +432,10 @@ public class IdleAgent : Agent
     {
         state = States.rand;
         obstacle = null;
+        if (loc == Loc.outbound)
+        {
+            OutBoundAgent();
+        }
         if (interested)
         {
             interest();
@@ -557,7 +564,6 @@ public class IdleAgent : Agent
     bool miauing;
     IEnumerator playInteSound()
     {
-        Debug.Log("coroutine called!");
         miauing = true;
         while (interested)
         {
