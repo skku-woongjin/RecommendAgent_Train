@@ -20,22 +20,33 @@ public class request : MonoBehaviour
     public Button QuestBtn;
     public bool ishate = false;
     public GameObject quest_panel;
+    private string locationQuest;
+    private string actionQuest;
+    public TMP_Text currentLocation;
+    private bool questIsGenerated;
     public string[] actionKeyword = { "jump", "fly", "walk", "go", "play", "find" };
-    public string[] locationKeyword = { "Jurassicpark", "gamemachine", "planetland", "playground", "castle" };
+    public string[] locationKeyword = { "Jurassicpark", "gamemachine", "planetland", "playground"};
     void Start()
     {
+        questIsGenerated = false;
         QuestBtn = GameObject.FindGameObjectWithTag("NewQuestBtn").GetComponent<Button>();
         QuestBtn.onClick.AddListener(NewQuest);
         // quest_panel.SetActive(false);
     }
-    void NewQuest()
+    public void NewQuest()
     {
-        string location = locationKeyword[Random.Range(0, locationKeyword.Length)];
-        string action = actionKeyword[Random.Range(0, actionKeyword.Length)];
-        StartCoroutine(UploadKeyword("Let's*" + action + "*" + location));
+        locationQuest = locationKeyword[Random.Range(0, locationKeyword.Length)];
+        actionQuest = actionKeyword[Random.Range(0, actionKeyword.Length)];
+        StartCoroutine(UploadKeyword("Let's*" + actionQuest + "*" + locationQuest));
+        questIsGenerated = true;
         quest_panel.SetActive(true);
     }
-
+    public void CheckQuestSuccess(){
+        if(questIsGenerated == true && locationQuest == currentLocation.text){
+            questText.text = "mission complete!";
+            questIsGenerated = false;
+        }
+    }
     // IEnumerator getRequest(string uri)
     // {
     //     UnityWebRequest uwr = UnityWebRequest.Get(uri);
