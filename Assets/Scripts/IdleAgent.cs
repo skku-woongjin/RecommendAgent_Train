@@ -332,6 +332,8 @@ public class IdleAgent : Agent
     // bool entered;
     public void enterGroup()
     {
+        if (interested)
+            endInterest();
         start = true;
         nav.enabled = true;
         NavMeshHit hit;
@@ -487,7 +489,7 @@ public class IdleAgent : Agent
     }
     public void endObst()
     {
-        if (state == States.outbound || state == States.say || state == States.enterGroup)
+        if (state == States.say || state == States.enterGroup)
         {
             return;
         }

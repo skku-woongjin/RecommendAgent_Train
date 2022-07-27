@@ -12992,6 +12992,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoodGroupNearDino
       objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023468552026047396, guid: c80cfdd2879ab463eaa06c167b1eab20,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6929636171082814082, guid: c80cfdd2879ab463eaa06c167b1eab20,
         type: 3}
       propertyPath: censor
