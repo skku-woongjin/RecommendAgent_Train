@@ -93,7 +93,7 @@ public class request : MonoBehaviour
         string bodyData = JsonUtility.ToJson(body);
         Debug.Log(bodyData);
         // var postData = System.Text.Encoding.UTF8.GetBytes(bodyData);
-        var req = new UnityWebRequest("http://54.180.107.240:5000/generator", "POST");
+        var req = new UnityWebRequest("http://54.180.29.120:5000/generator", "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(bodyData);
         req.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         req.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
