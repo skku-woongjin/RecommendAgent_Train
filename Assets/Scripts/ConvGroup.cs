@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-
+using TMPro;
 public class ConvGroup : MonoBehaviour
 {
     public bool isbad;
@@ -13,10 +13,18 @@ public class ConvGroup : MonoBehaviour
     public SaySomething[] users;
     public string convFilename;
     public Canvas canvas;
+    public int totalChat;
+    public int hateChat;
+    public TMP_Text hatePercentValueSee;
+
+    public int hatePercent;
     List<Dictionary<string, object>> data_Dialog;
 
     void Start()
     {
+        totalChat = 0;
+        hateChat = 0;
+        hatePercent = 0;
         canvas.worldCamera = GameManager.Instance.cam.GetComponent<Camera>();
         if (isbad)
         {
@@ -39,7 +47,11 @@ public class ConvGroup : MonoBehaviour
 
         }
     }
-
+    public void changeSphere(){
+        hatePercent = (hateChat * 100 / totalChat) ;
+        //Debug.Log(hateChat);
+        hatePercentValueSee.text = hatePercent.ToString();
+    }
     public void hideSphere()
     {
         StartCoroutine("hideSphereCoroutine");

@@ -68,7 +68,7 @@ public class request : MonoBehaviour
         string bodyData = JsonUtility.ToJson(body);
         Debug.Log(bodyData);
         // var postData = System.Text.Encoding.UTF8.GetBytes(bodyData);
-        var req = new UnityWebRequest("http://3.37.88.40:5000/prediction", "POST");
+        var req = new UnityWebRequest("http://15.164.98.122:5000/prediction", "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(bodyData);
         req.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         req.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -85,7 +85,7 @@ public class request : MonoBehaviour
         {
             Debug.Log(req.downloadHandler.text);
             string res = req.downloadHandler.text;
-            if (res.Contains("hate"))
+            if (res.Contains("1"))
             {
                 ishate = true;
             }

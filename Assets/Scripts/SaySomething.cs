@@ -9,7 +9,6 @@ public class SaySomething : MonoBehaviour
     public GameObject bubble;
     public Transform camTransform;
     public bool censor;
-
     Image bubbleImg;
 
     void Start()
@@ -22,13 +21,16 @@ public class SaySomething : MonoBehaviour
         bubbleImg.color = Color.white;
         StopAllCoroutines();
         bubble.SetActive(false);
+        transform.parent.GetComponent<ConvGroup>().totalChat += 1;
         if (censor)
         {
+            
             StartCoroutine(GameManager.Instance.req.Upload((returnval) =>
             {
                 if (returnval)
                 {
-                    bubble.GetComponentInChildren<TMP_Text>().text = "(욕설)";
+                    transform.parent.GetComponent<ConvGroup>().hateChat += 1;
+                    bubble.GetComponentInChildren<TMP_Text>().text = line;
                 }
                 else
                 {
@@ -44,6 +46,7 @@ public class SaySomething : MonoBehaviour
             bubble.SetActive(true);
             StartCoroutine("fadeout");
         }
+        transform.parent.GetComponent<ConvGroup>().changeSphere();
     }
 
     private void Update()
