@@ -255,11 +255,17 @@ public class IdleAgent : Agent
     #region collision
     void OnCollisionEnter(Collision collision)
     {
-        if (!collision.collider.CompareTag("ground") && interestingObj != null && collision.collider.gameObject != interestingObj.gameObject)
+        if (!collision.collider.CompareTag("ground"))
         {
+            if (interestingObj != null && collision.collider.gameObject == interestingObj.gameObject)
+            {
+                Debug.Log("!!");
+                return;
+            }
             colliding = true;
             obstacle = collision.transform;
             ObstAgent(obstacle);
+            Debug.Log("obst");
         }
     }
     private void OnCollisionExit(Collision other)
@@ -403,15 +409,14 @@ public class IdleAgent : Agent
     public void endSay()
     {
         state = States.rand;
-        obstacle = null;
+        if (loc == Loc.outbound)
+        {
+            OutBoundAgent();
+        }
         if (interested)
         {
             interest();
         }
-        // if (!inbound)
-        // {
-        //     BoundAgent();
-        // }
         setMat();
     }
     #endregion
