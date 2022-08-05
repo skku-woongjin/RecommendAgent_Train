@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation.Samples;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     public request req;
     public bool ingroup;
     private static GameManager gm;
+    public LocalNavMeshBuilder navBuilder;
     public static GameManager Instance
     {
         get
