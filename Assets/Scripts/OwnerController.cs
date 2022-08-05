@@ -57,67 +57,65 @@ public class OwnerController : MonoBehaviour
         {
             animator.SetBool(Const.Moving, false);
         }
-        if (GameManager.Instance.ingroup || GameManager.Instance.idleAgent.state != IdleAgent.States.say)
+
+        // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
+        //dash
+        if (Input.GetKey(KeyCode.LeftControl))
         {
-            // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
-            //dash
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                rb.AddForce(-bound.forward * speed * 10, ForceMode.VelocityChange);
+            rb.AddForce(-bound.forward * speed * 10, ForceMode.VelocityChange);
 
-                // transform.position += transform.forward * speed * 0.5f;
-            }
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                rb.AddForce(bound.forward * speed * 10, ForceMode.VelocityChange);
-
-                // transform.position += transform.forward * speed * 0.5f;
-            }
-            //move
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                animator.transform.localRotation = Quaternion.identity;
-                rb.AddForce(bound.forward * speed, ForceMode.VelocityChange);
-                // transform.position += transform.forward * speed * 0.5f;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                animator.transform.localRotation = Quaternion.LookRotation(Vector3.back);
-                rb.AddForce(-bound.forward * speed, ForceMode.VelocityChange);
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                bound.Rotate(Vector3.up * turnSpd * 0.1f);
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                bound.Rotate(Vector3.up * turnSpd * -0.1f);
-            }
-            if (Vector3.Magnitude(rb.velocity) > 5)
-            {
-                rb.velocity *= 0.9f;
-            }
+            // transform.position += transform.forward * speed * 0.5f;
         }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            rb.AddForce(bound.forward * speed * 10, ForceMode.VelocityChange);
+
+            // transform.position += transform.forward * speed * 0.5f;
+        }
+        //move
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            animator.transform.localRotation = Quaternion.identity;
+            rb.AddForce(bound.forward * speed, ForceMode.VelocityChange);
+            // transform.position += transform.forward * speed * 0.5f;
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            animator.transform.localRotation = Quaternion.LookRotation(Vector3.back);
+            rb.AddForce(-bound.forward * speed, ForceMode.VelocityChange);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            bound.Rotate(Vector3.up * turnSpd * 0.1f);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            bound.Rotate(Vector3.up * turnSpd * -0.1f);
+        }
+        if (Vector3.Magnitude(rb.velocity) > 5)
+        {
+            rb.velocity *= 0.9f;
+        }
+
 
     }
 
     void Update()
     {
-        if (GameManager.Instance.ingroup || GameManager.Instance.idleAgent.state != IdleAgent.States.say)
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
-            }
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
-            }
+            rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
+        }
+
     }
     IEnumerator changedir()
     {

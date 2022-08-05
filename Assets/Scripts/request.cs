@@ -25,12 +25,9 @@ public class request : MonoBehaviour
     public TMP_Text currentLocation;
     private bool questIsGenerated;
     public string[] actionKeyword = { "jump", "fly", "walk", "go", "play", "find" };
-    public string[] locationKeyword = { "Jurassicpark", "gamemachine", "planetland", "playground"};
+    public string[] locationKeyword = { "Jurassicpark", "gamemachine", "planetland", "playground" };
     void Start()
     {
-        questIsGenerated = false;
-        QuestBtn = GameObject.FindGameObjectWithTag("NewQuestBtn").GetComponent<Button>();
-        QuestBtn.onClick.AddListener(NewQuest);
         // quest_panel.SetActive(false);
     }
     public void NewQuest()
@@ -41,8 +38,10 @@ public class request : MonoBehaviour
         questIsGenerated = true;
         quest_panel.SetActive(true);
     }
-    public void CheckQuestSuccess(){
-        if(questIsGenerated == true && locationQuest == currentLocation.text){
+    public void CheckQuestSuccess()
+    {
+        if (questIsGenerated == true && locationQuest == currentLocation.text)
+        {
             questText.text = "mission complete!";
             questIsGenerated = false;
         }
