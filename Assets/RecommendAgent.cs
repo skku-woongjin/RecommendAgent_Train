@@ -16,15 +16,21 @@ public class RecommendAgent : Agent
     ObservationCollector obsCollector;
     public Transform owner;
     public Transform trails;
+
+    int flagcount;
     public int destQSize;
     int destQfilled;
     Queue<int> destQ;
     int[] flagVisited;
     bool going = false;
 
+    public int epLength;
+    int curep;
+
     public override void Initialize()
     {
         obsCollector = GetComponent<ObservationCollector>();
+        flagcount = obsCollector.flagCount;
         destQ = new Queue<int>();
         flagVisited = new int[obsCollector.flagCount];
         curdest = -1;
@@ -32,6 +38,7 @@ public class RecommendAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        energy = 0;
         rew = 0;
         obsCollector.setRandomPosition();
         if (curdest > -1)
@@ -50,7 +57,7 @@ public class RecommendAgent : Agent
         destQfilled = 0;
         going = false;
         updateFlagUI();
-
+        curep = 0;
     }
 
     void updateFlagUI()
@@ -75,8 +82,16 @@ public class RecommendAgent : Agent
             curdest = action;
             owner.GetComponent<OwnerController>().goTo(candidates.GetChild(action).position);
             candidates.GetChild(action).GetComponent<FlagColor>().red();
-            AddReward(-(flagVisited[action] + 0.0f) / destQSize);
-            rew += (-flagVisited[action] + 0.0f) / destQSize;
+            float g = destQSize / flagcount;
+
+            if (flagVisited[action] <= g)
+            {
+                AddReward(1 - flagVisited[action] / g);
+            }
+            else
+            {
+                AddReward((1 - flagVisited[action] / g) / 7);
+            }
 
             if (destQfilled == destQSize)
             {
@@ -87,6 +102,9 @@ public class RecommendAgent : Agent
             destQfilled++;
             flagVisited[action]++;
             updateFlagUI();
+            curep++;
+            if (curep == epLength)
+                EndEpisode();
         }
 
     }

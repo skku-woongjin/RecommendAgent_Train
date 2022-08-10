@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 1573580460}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 7985525624880461336}
   m_Layer: 0
   m_Name: Flag
-  m_TagString: Untagged
+  m_TagString: target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -464,6 +464,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af3db9475b6941598b61e4627af301d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Shape:
+    m_ScanResultsByLOD:
+    - LocalPoints:
+      - {x: 0, y: 0, z: 0}
+    m_LocalPoints:
+    - {x: 0, y: 0, z: 0}
+    m_WorldPoints: []
+    m_MergeDisconnected: 1
+    m_Flatten: 1
+    m_MaxLOD: 0
+    m_SelectedLOD: 0
+    m_ScanLOD: 0
+    m_GizmoLOD: 0
+    m_Projection: 0
+    m_PointCount: 1
+    m_DrawGrid: 0
   yellowMat: {fileID: 2100000, guid: 52eab8ab5010f438fab93da85735ba1d, type: 2}
   redMat: {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
 --- !u!65 &7663193076855928423

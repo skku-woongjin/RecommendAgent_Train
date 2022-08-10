@@ -12,6 +12,8 @@ public class TrailEnergyDecrease : MonoBehaviour
         {
             child.GetComponent<TrailPoint>().energy -= decreaeRate;
             if (child.GetComponent<TrailPoint>().energy <= 0) Destroy(child.gameObject);
+            else
+                child.GetComponent<Renderer>().material.color = Color.Lerp(Color.white, Color.red, child.GetComponent<TrailPoint>().energy);
         }
     }
 }

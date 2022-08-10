@@ -41,7 +41,10 @@ public class OwnerController : MonoBehaviour
     {
         if (lastpos == null || Vector3.SqrMagnitude(lastpos - transform.position) > traceSpacing)
         {
-            Instantiate(tracePrefab, new Vector3(transform.position.x, 0.5f, transform.position.z), Quaternion.identity, traces);
+            if (agent.energy > 0)
+            {
+                GameObject trailPoint = Instantiate(tracePrefab, new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity, traces);
+            }
             if (queueFilled == queueSize)
             {
                 waypoints.Dequeue();

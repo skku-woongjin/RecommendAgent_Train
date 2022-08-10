@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5990901973960844247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,7 +97,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3f45d412b664a009402e7b3e8cb087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 0.01
+  m_Shape:
+    m_ScanResultsByLOD:
+    - LocalPoints:
+      - {x: 0, y: 0, z: 0}
+    m_LocalPoints:
+    - {x: 0, y: 0, z: 0}
+    m_WorldPoints: []
+    m_MergeDisconnected: 1
+    m_Flatten: 1
+    m_MaxLOD: 0
+    m_SelectedLOD: 0
+    m_ScanLOD: 0
+    m_GizmoLOD: 0
+    m_Projection: 0
+    m_PointCount: 1
+    m_DrawGrid: 0
+  energy: 1
 --- !u!135 &2614841577573430256
 SphereCollider:
   m_ObjectHideFlags: 0
