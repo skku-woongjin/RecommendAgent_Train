@@ -30,8 +30,9 @@ public class Ball3DAgent : Agent
             sensor.AddObservation(gameObject.transform.rotation.x);
             sensor.AddObservation(ball.transform.position - gameObject.transform.position);
             sensor.AddObservation(m_BallRb.velocity);
-            if(logging){
-            Debug.Log(gameObject.transform.rotation.z +"\n"+gameObject.transform.rotation.x+"\n"+(ball.transform.position - gameObject.transform.position)+"\n"+m_BallRb.velocity);
+            if (logging)
+            {
+                Debug.Log(gameObject.transform.rotation.z + "\n" + gameObject.transform.rotation.x + "\n" + (ball.transform.position - gameObject.transform.position) + "\n" + m_BallRb.velocity);
             }
         }
     }
@@ -40,8 +41,8 @@ public class Ball3DAgent : Agent
     {
         var actionZ = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
         var actionX = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
-        if(logging)
-            Debug.Log(actionBuffers.ContinuousActions[0]+", "+actionBuffers.ContinuousActions[1]);
+        if (logging)
+            Debug.Log(actionBuffers.ContinuousActions[0] + ", " + actionBuffers.ContinuousActions[1]);
         if ((gameObject.transform.rotation.z < 0.25f && actionZ > 0f) ||
             (gameObject.transform.rotation.z > -0.25f && actionZ < 0f))
         {
@@ -59,12 +60,12 @@ public class Ball3DAgent : Agent
         {
             SetReward(-1f);
             EndEpisode();
-    
+
         }
         else
         {
             SetReward(0.1f);
-          
+
         }
     }
 

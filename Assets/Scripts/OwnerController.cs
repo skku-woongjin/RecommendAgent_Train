@@ -6,17 +6,8 @@ using UnityEngine.AI;
 public class OwnerController : MonoBehaviour
 {
     public Animator animator;
-    public float speed;
-    public float turnSpd;
-    public Transform bound;
-    public Transform dest;
-
-    public Rigidbody rb;
-    Vector3 dirVec;
     NavMeshAgent nav;
-    NavMeshPath navPath;
-    Vector3 direction;
-    public bool randomMovement = false;
+    public float traceSpacing;
 
 
     void OnEnable()
@@ -25,117 +16,45 @@ public class OwnerController : MonoBehaviour
         nav.updatePosition = true;
         nav.updateRotation = true;
         transform.rotation = Quaternion.Euler(Vector3.zero);
-        bound.rotation = Quaternion.Euler(Vector3.zero);
-        StopAllCoroutines();
-        StartCoroutine("changedir");
-        navPath = new NavMeshPath();
     }
 
-    void FixedUpdate()
+    public void goTo(Vector3 pos)
     {
-        // if (randomMovement)
-        // {
-        //     transform.position += dirVec * speed * 0.1f;
-        //     if (transform.position.x * transform.position.x > 2500 || transform.position.z * transform.position.z > 2500)
-        //     {
-        //         transform.position = new Vector3(0, transform.position.y, 0);
-        //     }
-        //     if (dirVec != Vector3.zero)
-        //     {
-        //         bound.rotation = Quaternion.Lerp(bound.rotation, Quaternion.LookRotation(dirVec), Time.deltaTime * turnSpd);
-        //     }
-        // }
-        // if (nav.destination != null)
-        //     nav.CalculatePath(nav.destination, navPath);
-        animator.SetFloat(Const.Speed, rb.velocity.sqrMagnitude);
-        if (rb.velocity.sqrMagnitude > 1)
-        {
-            animator.SetBool(Const.Moving, true);
-
-        }
-        else
-        {
-            animator.SetBool(Const.Moving, false);
-        }
-
-        // rb.AddForce((nav.nextPosition - transform.position).normalized * speed, ForceMode.VelocityChange);
-        //dash
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            rb.AddForce(-bound.forward * speed * 10, ForceMode.VelocityChange);
-
-            // transform.position += transform.forward * speed * 0.5f;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            rb.AddForce(bound.forward * speed * 10, ForceMode.VelocityChange);
-
-            // transform.position += transform.forward * speed * 0.5f;
-        }
-        //move
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            animator.transform.localRotation = Quaternion.identity;
-            rb.AddForce(bound.forward * speed, ForceMode.VelocityChange);
-            // transform.position += transform.forward * speed * 0.5f;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            animator.transform.localRotation = Quaternion.LookRotation(Vector3.back);
-            rb.AddForce(-bound.forward * speed, ForceMode.VelocityChange);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            bound.Rotate(Vector3.up * turnSpd * 0.1f);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            bound.Rotate(Vector3.up * turnSpd * -0.1f);
-        }
-        if (Vector3.Magnitude(rb.velocity) > 5)
-        {
-            rb.velocity *= 0.9f;
-        }
-
-
+        nav.SetDestination(pos);
     }
 
-    void Update()
+    //NOTE Trace 관련 
+    public GameObject tracePrefab;
+    public Transform traces;
+    public Queue<Vector3> waypoints;
+    public int queueSize;
+    int queueFilled = 0;
+    Vector3 lastpos;
+    public RecommendAgent agent;
+
+    private void Start()
     {
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(bound.up * speed * 1000, ForceMode.Impulse);
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            rb.AddForce(bound.up * speed * 10000, ForceMode.Impulse);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            rb.AddForce(-bound.up * speed * 10000, ForceMode.Impulse);
-        }
-
+        waypoints = new Queue<Vector3>();
     }
-    IEnumerator changedir()
+
+    private void FixedUpdate()
     {
-        while (true)
+        if (lastpos == null || Vector3.SqrMagnitude(lastpos - transform.position) > traceSpacing)
         {
-            if (randomMovement)
+            Instantiate(tracePrefab, new Vector3(transform.position.x, 0.5f, transform.position.z), Quaternion.identity, traces);
+            if (queueFilled == queueSize)
             {
-                float walkRadius = Random.Range(20f, 50f);
-
-                Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-                randomDirection += transform.position;
-                NavMeshHit hit;
-                NavMesh.SamplePosition(randomDirection, out hit, walkRadius, 1);
-                Vector3 finalPosition = hit.position;
-                nav.SetDestination(finalPosition);
-                dest.position = finalPosition + transform.up;
-                // dirVec = new Vector3(Random.insideUnitSphere.normalized.x, 0, Random.insideUnitSphere.normalized.z);
-                yield return new WaitForSecondsRealtime(Random.Range(10, 15));
+                waypoints.Dequeue();
+                queueFilled -= 1;
             }
-            yield return null;
+            waypoints.Enqueue(transform.position);
+            queueFilled++;
+            lastpos = transform.position;
+            if (queueFilled > 0)
+                agent.AddReward(Vector3.SqrMagnitude(waypoints.Peek() - transform.position) / 10000);
+            // agent.AddReward(agent.energy / 10);
+
         }
     }
+
 }

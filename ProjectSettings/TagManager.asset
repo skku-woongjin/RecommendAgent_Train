@@ -26,6 +26,7 @@ TagManager:
   - MapOpenBtn
   - pyramid
   - stone
+  - trail
   layers:
   - Default
   - TransparentFX

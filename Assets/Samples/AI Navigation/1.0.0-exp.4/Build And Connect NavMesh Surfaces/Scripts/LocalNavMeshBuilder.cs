@@ -27,12 +27,14 @@ namespace Unity.AI.Navigation.Samples
         NavMeshDataInstance m_Instance;
         List<NavMeshBuildSource> m_Sources = new List<NavMeshBuildSource>();
 
-        public void updateNav()
-        {
-            UpdateNavMesh(true);
-        }
-
-
+        // IEnumerator Start()
+        // {
+        //     while (true)
+        //     {
+        //         UpdateNavMesh(true);
+        //         yield return m_Operation;
+        //     }
+        // }
 
         void OnEnable()
         {
@@ -50,7 +52,7 @@ namespace Unity.AI.Navigation.Samples
             m_Instance.Remove();
         }
 
-        void UpdateNavMesh(bool asyncUpdate = false)
+        public void UpdateNavMesh(bool asyncUpdate = false)
         {
             NavMeshSourceTag.Collect(ref m_Sources);
             var defaultBuildSettings = NavMesh.GetSettingsByID(0);
