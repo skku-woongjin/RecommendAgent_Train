@@ -103,17 +103,6 @@ public class RecommendAgent : Agent
         else if (Input.GetKey(KeyCode.Alpha7)) discreteActionsOut[0] = 7;
         else if (Input.GetKey(KeyCode.Alpha8)) discreteActionsOut[0] = 8;
         else if (Input.GetKey(KeyCode.Alpha9)) discreteActionsOut[0] = 9;
-        else if (Input.GetKey(KeyCode.Q)) discreteActionsOut[0] = 10;
-        else if (Input.GetKey(KeyCode.W)) discreteActionsOut[0] = 11;
-        else if (Input.GetKey(KeyCode.E)) discreteActionsOut[0] = 12;
-        else if (Input.GetKey(KeyCode.R)) discreteActionsOut[0] = 13;
-        else if (Input.GetKey(KeyCode.T)) discreteActionsOut[0] = 14;
-        else if (Input.GetKey(KeyCode.Y)) discreteActionsOut[0] = 15;
-        else if (Input.GetKey(KeyCode.U)) discreteActionsOut[0] = 16;
-        else if (Input.GetKey(KeyCode.I)) discreteActionsOut[0] = 17;
-        else if (Input.GetKey(KeyCode.O)) discreteActionsOut[0] = 18;
-        else if (Input.GetKey(KeyCode.P)) discreteActionsOut[0] = 19;
-        else if (Input.GetKey(KeyCode.A)) discreteActionsOut[0] = 20;
         else discreteActionsOut[0] = -1;
     }
     public float rew;
