@@ -268,10 +268,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 874421068, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: MaxStep
-      value: 10000
-      objectReference: {fileID: 0}
     - target: {fileID: 1819751139121548, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Name
       value: GridFoodCollectorArea
@@ -1227,10 +1223,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 874421068, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: MaxStep
-      value: 10000
-      objectReference: {fileID: 0}
     - target: {fileID: 1819751139121548, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Name
       value: GridFoodCollectorArea (1)

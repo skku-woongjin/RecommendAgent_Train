@@ -1270,7 +1270,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
+  MaxStep: 30000
   candidates: {fileID: 780396251}
   curdest: -1
   enrgyDecrease: 0.000001
