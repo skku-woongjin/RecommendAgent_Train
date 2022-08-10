@@ -1208,8 +1208,8 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 08000000
-    VectorActionSize: 08000000
+      BranchSizes: 10000000
+    VectorActionSize: 10000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
@@ -1237,7 +1237,7 @@ MonoBehaviour:
   worldSize: 100
   cellSize: 2
   tagcount: 3
-  flagCount: 8
+  flagCount: 16
   candidates: {fileID: 780396251}
   flagPrefab: {fileID: 7985525626067312151, guid: 13f66594be81c44ddbbc223c2d42cba3,
     type: 3}
@@ -1277,6 +1277,8 @@ MonoBehaviour:
   energy: 0
   owner: {fileID: 1764351714}
   trails: {fileID: 2092812882}
+  destQSize: 48
+  rew: 0
 --- !u!114 &874421073
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -50,11 +50,17 @@ public class OwnerController : MonoBehaviour
             waypoints.Enqueue(transform.position);
             queueFilled++;
             lastpos = transform.position;
-            if (queueFilled > 0)
-                agent.AddReward(Vector3.SqrMagnitude(waypoints.Peek() - transform.position) / 10000);
+            // if (queueFilled > 0)
+            //     agent.AddReward(Vector3.SqrMagnitude(waypoints.Peek() - transform.position) / 10000);
             // agent.AddReward(agent.energy / 10);
 
         }
+    }
+
+    public void resetQ()
+    {
+        waypoints.Clear();
+        queueFilled = 0;
     }
 
 }

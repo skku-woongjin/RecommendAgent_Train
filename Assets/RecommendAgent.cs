@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using System;
+using TMPro;
 
 public class RecommendAgent : Agent
 {
@@ -14,15 +16,23 @@ public class RecommendAgent : Agent
     ObservationCollector obsCollector;
     public Transform owner;
     public Transform trails;
+    public int destQSize;
+    int destQfilled;
+    Queue<int> destQ;
+    int[] flagVisited;
+    bool going = false;
 
     public override void Initialize()
     {
-        curdest = -1;
         obsCollector = GetComponent<ObservationCollector>();
+        destQ = new Queue<int>();
+        flagVisited = new int[obsCollector.flagCount];
+        curdest = -1;
     }
 
     public override void OnEpisodeBegin()
     {
+        rew = 0;
         obsCollector.setRandomPosition();
         if (curdest > -1)
             candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
@@ -31,8 +41,24 @@ public class RecommendAgent : Agent
         {
             Destroy(child.gameObject);
         }
-        owner.position = new Vector3(0, 0, 0);
-        owner.GetComponent<OwnerController>().goTo(new Vector3(0, 0, 0));
+        owner.localPosition = new Vector3(0, 0, 0);
+        owner.GetComponent<OwnerController>().goTo(transform.position);
+        owner.GetComponent<OwnerController>().resetQ();
+
+        destQ.Clear();
+        Array.Clear(flagVisited, 0, flagVisited.Length);
+        destQfilled = 0;
+        going = false;
+        updateFlagUI();
+
+    }
+
+    void updateFlagUI()
+    {
+        for (int i = 0; i < candidates.childCount; i++)
+        {
+            candidates.GetChild(i).GetChild(2).GetChild(1).GetComponent<TMP_Text>().text = flagVisited[i] + "";
+        }
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -44,9 +70,23 @@ public class RecommendAgent : Agent
         var action = actionBuffers.DiscreteActions[0];
         if (action != -1 && action < candidates.childCount)
         {
+            if (going) return;
+            going = true;
             curdest = action;
             owner.GetComponent<OwnerController>().goTo(candidates.GetChild(action).position);
             candidates.GetChild(action).GetComponent<FlagColor>().red();
+            AddReward(-(flagVisited[action] + 0.0f) / destQSize);
+            rew += (-flagVisited[action] + 0.0f) / destQSize;
+
+            if (destQfilled == destQSize)
+            {
+                flagVisited[destQ.Dequeue()]--;
+                destQfilled--;
+            }
+            destQ.Enqueue(action);
+            destQfilled++;
+            flagVisited[action]++;
+            updateFlagUI();
         }
 
     }
@@ -65,12 +105,13 @@ public class RecommendAgent : Agent
         else if (Input.GetKey(KeyCode.Alpha9)) discreteActionsOut[0] = 9;
         else discreteActionsOut[0] = -1;
     }
-
+    public float rew;
     void FixedUpdate()
     {
         if (curdest >= 0 && Vector3.SqrMagnitude(candidates.GetChild(curdest).position - owner.position) < 20)
         {
             candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
+            going = false;
             energy = 1;
             curdest = -1;
         }
