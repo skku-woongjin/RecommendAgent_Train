@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 0
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -933,7 +933,7 @@ MonoBehaviour:
   m_CompressionType: 1
   m_ObservationType: 0
   m_ChannelLabels: []
-  m_Debug_CreateSensorOnAwake: 1
+  m_Debug_CreateSensorOnAwake: 0
   m_Debug_CreateSensorOnValidate: 1
   m_Debug_FrameInterval: 1
   m_Debug_DrawGridBuffer: 1
@@ -948,7 +948,7 @@ MonoBehaviour:
     Width: 100
     Height: 100
   m_ClearCacheOnReset: 1
-  m_ColliderBufferSize: 64
+  m_ColliderBufferSize: 512
   m_TmpObjectToAdd: {fileID: 0}
   m_GameObjectSettingsList:
   - Tag: target
@@ -969,7 +969,7 @@ MonoBehaviour:
       Type: 2
       Index: 0
       Enabled: 1
-      Color: {r: 0.883168, g: 0.5109281, b: 0.10552624, a: 1}
+      Color: {r: 0, g: 0.9023998, b: 1, a: 1}
     m_DetectorSpaceType: 0
   - Tag: trail
     Enabled: 1

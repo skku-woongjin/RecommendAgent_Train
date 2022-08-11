@@ -133,16 +133,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: m_ColliderBufferSize
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: m_Debug_CreateSensorOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Debug_GridBufferDrawer.Editor
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 874421068, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
+      propertyPath: debugReward
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1819751139121548, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Name

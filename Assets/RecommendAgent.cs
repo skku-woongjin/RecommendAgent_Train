@@ -9,6 +9,7 @@ using TMPro;
 
 public class RecommendAgent : Agent
 {
+    public bool debugReward;
     public Transform candidates;
     public int curdest = -1;
     public float enrgyDecrease;
@@ -67,10 +68,10 @@ public class RecommendAgent : Agent
             candidates.GetChild(i).GetChild(2).GetChild(1).GetComponent<TMP_Text>().text = flagVisited[i] + "";
         }
     }
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        sensor.AddObservation(energy);
-    }
+    // public override void CollectObservations(VectorSensor sensor)
+    // {
+    //     sensor.AddObservation(energy);
+    // }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
@@ -87,17 +88,22 @@ public class RecommendAgent : Agent
             if (flagVisited[action] <= g)
             {
                 AddReward(1 - flagVisited[action] / g);
+                rew = (1 - flagVisited[action] / g);
             }
             else
             {
                 AddReward((1 - flagVisited[action] / g) / 7);
+                rew = (1 - flagVisited[action] / g);
             }
+            if (debugReward)
+                Debug.Log("id: " + action + "\n #visited: " + flagVisited[action] + " reward: " + rew);
 
             if (destQfilled == destQSize)
             {
                 flagVisited[destQ.Dequeue()]--;
                 destQfilled--;
             }
+
             destQ.Enqueue(action);
             destQfilled++;
             flagVisited[action]++;
