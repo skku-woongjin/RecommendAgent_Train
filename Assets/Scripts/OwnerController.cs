@@ -37,14 +37,19 @@ public class OwnerController : MonoBehaviour
         waypoints = new Queue<Vector3>();
     }
 
+    public void makeTrace(int count)
+    {
+        for (int i = 0; i < count; i++)
+            Instantiate(tracePrefab, new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity, traces);
+    }
+
     private void FixedUpdate()
     {
         if (lastpos == null || Vector3.SqrMagnitude(lastpos - transform.position) > traceSpacing)
         {
-            if (agent.energy > 0)
-            {
-                GameObject trailPoint = Instantiate(tracePrefab, new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity, traces);
-            }
+            //if (agent.energy > 0)
+            makeTrace(1);
+
             if (queueFilled == queueSize)
             {
                 waypoints.Dequeue();

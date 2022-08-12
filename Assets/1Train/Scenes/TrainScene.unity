@@ -132,14 +132,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: m_Debug_GridBufferDrawer.Editor
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 874421068, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
-      propertyPath: debugReward
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1819751139121548, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Name
       value: GridFoodCollectorArea
@@ -1043,14 +1035,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009000883}
-  m_LocalRotation: {x: 0.31947935, y: -0.63081926, z: 0.31947935, w: 0.63081926}
-  m_LocalPosition: {x: 126, y: 158, z: -11}
+  m_LocalRotation: {x: 0.45181203, y: 0, z: 0, w: 0.89211315}
+  m_LocalPosition: {x: -9, y: 158, z: -114}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 53.72, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 53.72, y: 0, z: 0}
 --- !u!20 &1009000887
 Camera:
   m_ObjectHideFlags: 0

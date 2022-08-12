@@ -389,11 +389,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 10
-  m_Acceleration: 20
+  m_Speed: 20
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -556,6 +556,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decreaeRate: 0.0001
+  gridsize: 1
+  normFactor: 20
 --- !u!1 &2104346958
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,8 +800,8 @@ GameObject:
   - component: {fileID: 874421066}
   - component: {fileID: 874421067}
   - component: {fileID: 874421068}
+  - component: {fileID: 7171315282034239200}
   - component: {fileID: 874421059}
-  - component: {fileID: 874421060}
   m_Layer: 0
   m_Name: FoodCollectorArea
   m_TagString: Untagged
@@ -870,8 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSize: 100
-  cellSize: 2
-  tagcount: 3
+  gridsize: 1
   flagCount: 8
   candidates: {fileID: 780396251}
   flagPrefab: {fileID: 7985525626067312151, guid: 13f66594be81c44ddbbc223c2d42cba3,
@@ -906,6 +907,8 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 100000
+  autoHeuristic: 0
+  debugReward: 0
   candidates: {fileID: 780396251}
   curdest: -1
   enrgyDecrease: 0.01
@@ -914,8 +917,11 @@ MonoBehaviour:
   trails: {fileID: 2092812882}
   destQSize: 24
   epLength: 100
+  flagGridComp: {fileID: 874421059}
+  trailGridComp: {fileID: 7171315282034239200}
+  cellSize: 1
   rew: 0
---- !u!114 &874421059
+--- !u!114 &7171315282034239200
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -924,11 +930,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1819751139121548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8722596ac4fb346894cd62602b3999, type: 3}
+  m_Script: {fileID: 11500000, guid: c2b1228c827ad8d4d86b457aa28a67be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ObservationShape: 2 channels x 100 width x 100 height
-  m_SensorName: GridSensor
+  m_ObservationShape: 1 channel x 20 width x 20 height
+  m_SensorName: DenseTrail
   m_ObservationStacks: 1
   m_CompressionType: 1
   m_ObservationType: 0
@@ -944,66 +950,10 @@ MonoBehaviour:
     IsEnabled: 0
     IsStandby: 0
   m_GridShape:
-    NumChannels: 2
-    Width: 100
-    Height: 100
-  m_ClearCacheOnReset: 1
-  m_ColliderBufferSize: 512
-  m_TmpObjectToAdd: {fileID: 0}
-  m_GameObjectSettingsList:
-  - Tag: target
-    Enabled: 1
-    DetectionType: 1
-    Modifier: 0
-    Detectable: {fileID: 8974125469142397757, guid: 13f66594be81c44ddbbc223c2d42cba3,
-      type: 3}
-    m_UserObservables:
-      m_Observables:
-      - Name: id
-        Type: 2
-        Index: 0
-        Enabled: 1
-        Color: {r: 0.883168, g: 0.5109281, b: 0.10552624, a: 1}
-    m_Observables:
-    - Name: id
-      Type: 2
-      Index: 0
-      Enabled: 1
-      Color: {r: 0, g: 0.9023998, b: 1, a: 1}
-    m_DetectorSpaceType: 0
-  - Tag: trail
-    Enabled: 1
-    DetectionType: 1
-    Modifier: 1
-    Detectable: {fileID: 5088138262144058536, guid: 7921972642ec844f6b428c3df7d0e5f5,
-      type: 3}
-    m_UserObservables:
-      m_Observables:
-      - Name: Energy
-        Type: 2
-        Index: 0
-        Enabled: 1
-        Color: {r: 0.67962205, g: 0.12819701, b: 0.21984002, a: 1}
-    m_Observables:
-    - Name: Energy
-      Type: 2
-      Index: 0
-      Enabled: 1
-      Color: {r: 0.67962205, g: 0.12819701, b: 0.21984002, a: 1}
-    m_DetectorSpaceType: 0
-  m_RotationType: 2
-  m_DetectionBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 50, y: 0.5, z: 50}
-  m_EditorBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 50, y: 0.5, z: 50}
-  m_CellSize: 1
-  m_NumCells: {x: 100, y: 1, z: 100}
-  m_DetectionSize: {x: 100, y: 1, z: 100}
-  m_BoundsSize: {x: 100, y: 1, z: 100}
-  m_Offset: {x: 0, y: 0, z: 0}
---- !u!114 &874421060
+    NumChannels: 1
+    Width: 20
+    Height: 20
+--- !u!114 &874421059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1012,9 +962,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1819751139121548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f8abecd5902d09449e947799d9330a9, type: 3}
+  m_Script: {fileID: 11500000, guid: c2b1228c827ad8d4d86b457aa28a67be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ObservationShape: 2 channels x 100 width x 100 height
+  m_SensorName: Flags
+  m_ObservationStacks: 1
+  m_CompressionType: 1
+  m_ObservationType: 1
+  m_ChannelLabels: []
+  m_Debug_CreateSensorOnAwake: 0
+  m_Debug_CreateSensorOnValidate: 1
+  m_Debug_FrameInterval: 1
+  m_Debug_DrawGridBuffer: 0
+  m_Debug_GridBufferDrawer:
+    Context: {fileID: 0}
+    Editor: {fileID: 0}
+    GridSizeRatio: 0
+    IsEnabled: 0
+    IsStandby: 0
+  m_GridShape:
+    NumChannels: 2
+    Width: 100
+    Height: 100
 --- !u!1001 &913401343
 PrefabInstance:
   m_ObjectHideFlags: 0

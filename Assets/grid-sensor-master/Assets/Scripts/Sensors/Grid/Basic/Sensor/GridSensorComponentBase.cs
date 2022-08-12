@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 
-namespace MBaske.Sensors.Grid 
+namespace MBaske.Sensors.Grid
 {
     /// <summary>
     /// Abstract base class for component that wraps a single 
@@ -194,7 +194,7 @@ namespace MBaske.Sensors.Grid
             set { m_GridShape = value; UpdateObservationShapeInfo(); }
         }
         [SerializeField, HideInInspector]
-        private GridBuffer.Shape m_GridShape = new GridBuffer.Shape(1, 20, 20);
+        private GridBuffer.Shape m_GridShape = new GridBuffer.Shape(2, 100, 100);
 
         protected void UpdateGridChannelCount(int numChannels)
         {
@@ -260,9 +260,9 @@ namespace MBaske.Sensors.Grid
 
             if (m_ObservationStacks > 1)
             {
-                return new ISensor[] 
-                { 
-                    new StackingSensor(m_GridSensor, m_ObservationStacks) 
+                return new ISensor[]
+                {
+                    new StackingSensor(m_GridSensor, m_ObservationStacks)
                 };
             }
 

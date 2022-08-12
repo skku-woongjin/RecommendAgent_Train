@@ -4,18 +4,15 @@ using UnityEngine;
 using Unity.AI.Navigation.Samples;
 using TMPro;
 using System;
-using Unity.MLAgents.Sensors;
+using MBaske.Sensors.Grid;
 
 public class ObservationCollector : MonoBehaviour
 {
     public int worldSize;
-    public int cellSize;
-    int gridsize;
-    public int tagcount;
+    public int gridsize;
     public int flagCount;
     public Transform candidates;
     public GameObject flagPrefab;
-
     float[,,] grid;
 
     private void Start()
@@ -34,9 +31,12 @@ public class ObservationCollector : MonoBehaviour
 
     public void setRandomPosition()
     {
+        GetComponent<RecommendAgent>().flagGrid.ClearChannel(0);
         foreach (Transform child in candidates)
         {
-            child.transform.localPosition = new Vector3(UnityEngine.Random.Range(-worldSize / 2, worldSize / 2), 0, UnityEngine.Random.Range(-worldSize / 2, worldSize / 2));
+
+            child.transform.localPosition = new Vector3(UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2), 0, UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2));
+            GetComponent<RecommendAgent>().flagGrid.Write(0, Convert.ToInt32((child.localPosition.x + 50) / gridsize), Convert.ToInt32((child.localPosition.z + 50) / gridsize), (child.GetSiblingIndex() + 1.0f) / (candidates.childCount + 1));
             // if (child.GetChild(0).GetComponent<NavMeshSourceTag>() != null)
             //     child.GetChild(0).GetComponent<NavMeshSourceTag>().enabled = true;
         }
