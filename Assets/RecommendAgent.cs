@@ -100,12 +100,6 @@ public class RecommendAgent : Agent
 
             // if (flagVisited[action] <= g)
             // {
-            if (flagVisited[action] > 2 * g)
-            {
-                AddReward(-50f);
-                EndEpisode();
-                return;
-            }
             AddReward(1 - flagVisited[action] / g);
             //rew += (1 - flagVisited[action] / g);
             // }

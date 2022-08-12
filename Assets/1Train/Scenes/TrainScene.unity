@@ -132,6 +132,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
+      propertyPath: m_Debug_DrawGridBuffer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 874421059, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
+      propertyPath: m_Debug_GridBufferDrawer.Editor
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 874421065, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 3a2c8dc6099f742549d3f0fa46b4e67d,
+        type: 3}
+    - target: {fileID: 2092812883, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
+      propertyPath: normFactor
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1819751139121548, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_Name
       value: GridFoodCollectorArea
@@ -179,6 +196,16 @@ PrefabInstance:
     - target: {fileID: 4688212428263696, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171315282034239200, guid: b5339e4b990ade14f992aadf3bf8591b,
+        type: 3}
+      propertyPath: m_Debug_CreateSensorOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171315282034239200, guid: b5339e4b990ade14f992aadf3bf8591b,
+        type: 3}
+      propertyPath: m_Debug_GridBufferDrawer.Editor
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5339e4b990ade14f992aadf3bf8591b, type: 3}
