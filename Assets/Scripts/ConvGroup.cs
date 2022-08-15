@@ -47,17 +47,20 @@ public class ConvGroup : MonoBehaviour
 
         }
     }
-    public void changeSphere(){
-        hatePercent = (hateChat * 100 / totalChat) ;
+    public void changeSphere()
+    {
+        hatePercent = (hateChat * 100 / totalChat);
         //Debug.Log(hateChat);
-        hatePercentValueSee.text = hatePercent.ToString();
-        if(hatePercent >= 20){
+        hatePercentValueSee.text = hatePercent.ToString() + "%";
+        if (hatePercent >= 60)
+        {
             isbad = true;
         }
-        else{
+        else
+        {
             isbad = false;
         }
-        
+
         if (isbad)
         {
             Sphere.GetComponent<Renderer>().material = UDangTangMat;

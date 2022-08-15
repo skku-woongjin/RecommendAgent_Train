@@ -24,7 +24,7 @@ public class SaySomething : MonoBehaviour
         transform.parent.GetComponent<ConvGroup>().totalChat += 1;
         if (censor)
         {
-            
+
             StartCoroutine(GameManager.Instance.req.Upload((returnval) =>
             {
                 if (returnval)
