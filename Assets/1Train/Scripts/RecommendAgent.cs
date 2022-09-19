@@ -128,6 +128,7 @@ public class RecommendAgent : Agent
     }
 
     public bool showResult;
+    public float showTime;
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         var action = actionBuffers.DiscreteActions[0];
@@ -151,7 +152,7 @@ public class RecommendAgent : Agent
             if (warp)
             {
                 if (showResult)
-                    Invoke("EndEpisode", 2f);
+                    Invoke("EndEpisode", showTime);
                 else
                     EndEpisode();
                 return;
