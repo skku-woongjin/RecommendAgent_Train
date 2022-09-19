@@ -4,5 +4,5 @@
 **Assets/1Train**
 ml environment와 관계있는 것들
 
-**Assets/Japda**
+**Assets/JapDa**
 별로 관련없는 잡다한 것들이지만 왠지 지우면 안될것같은 것들
