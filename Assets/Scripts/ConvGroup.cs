@@ -51,8 +51,8 @@ public class ConvGroup : MonoBehaviour
     {
         hatePercent = (hateChat * 100 / totalChat);
         //Debug.Log(hateChat);
-        hatePercentValueSee.text = hatePercent.ToString() + "%";
-        if (hatePercent >= 60)
+        hatePercentValueSee.text = hatePercent.ToString();
+        if (hatePercent >= 20)
         {
             isbad = true;
         }

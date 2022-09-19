@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public bool ingroup;
 
     public LocalNavMeshBuilder navBuilder;
-    public ObservationCollector obsCollector;
     private static GameManager gm;
     public static GameManager Instance
     {
