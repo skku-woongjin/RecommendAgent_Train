@@ -37,7 +37,25 @@ public class OwnerController : MonoBehaviour
         }
         agent.updateFlags(id);
     }
+    private Vector3 makeNoisePoint(Vector3 prevPos, Vector3 nextPos){
+        while(true){
+            float length = Vector3.Magnitude(nextPos - prevPos);
+            float ratio = Random.Range(0.2f, 0.8f);
+            Vector2 noisePoint = Random.insideUnitCircle.normalized * ratio * length / 2;
+            Vector3 noisePointV3 = new Vector3(noisePoint.x, 0, noisePoint.y);
 
+            Vector3 returnPoint = Vector3.Lerp(prevPos, nextPos, 0.5f) + noisePointV3;
+            if (returnPoint.x > agent.worldSize || returnPoint.x < -agent.worldSize 
+            || returnPoint.z < -agent.worldSize || returnPoint.z > agent.worldSize)
+            {
+                continue;
+            }
+            
+            return returnPoint;
+        }
+        
+        
+    }
     public void warpTo(Vector3 pos)
     {
         NavMeshPath path = new NavMeshPath();
@@ -45,7 +63,11 @@ public class OwnerController : MonoBehaviour
 
         Vector3 prevPos = transform.position;
 
-        foreach (Vector3 corner in path.corners)
+        List<Vector3> corners = new List<Vector3>(path.corners);
+        for(int i = 1; i < corners.Count ; i+=2){
+            corners.Insert(i, makeNoisePoint(corners[i-1],corners[i]));
+        }
+        foreach (Vector3 corner in corners)
         {
             traceLine(prevPos, corner);
             prevPos = corner;
