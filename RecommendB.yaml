@@ -27,19 +27,21 @@ behaviors:
 environment_parameters:
   block_offset:
       curriculum:
-        - name: Lesson0
+      - name: Lesson0
         completion_criteria:
+          behavior: RecommendContent
           measure : reward
           signal_smoothing : true
           min_lesson_length : 100
           thresholds: 0.3
         value: 3
-        - name: Lesson1
+      - name: Lesson1
         completion_criteria:
+          behavior: RecommendContent
           measure : reward
           signal_smoothing : true
           min_lesson_length : 100
           thresholds: 0.5
         value: 5
-        - name: Lesson2
+      - name: Lesson2
         value: 7

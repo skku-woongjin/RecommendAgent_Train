@@ -65,7 +65,7 @@ public class RecommendAgent : Agent
     {
         if (candidates.childCount == 0)
         {
-            flagCount =(int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset",numOfFlags));
+            //flagCount =(int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset",numOfFlags));
             for (int i = 0; i < flagCount; i++)
             {
                 
