@@ -38,6 +38,7 @@ public class RecommendAgent : Agent
     public GridSensorComponent trailGridComp;
     public int cellSize;
     public int worldSize;
+    public int numOfFlags;
 
     public Vector3[] flagpos;
 
@@ -64,8 +65,10 @@ public class RecommendAgent : Agent
     {
         if (candidates.childCount == 0)
         {
+            flagCount =(int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset",numOfFlags));
             for (int i = 0; i < flagCount; i++)
             {
+                
                 GameObject tmp = Instantiate(flagPrefab, candidates);
                 tmp.GetComponentInChildren<TMP_Text>().text = i + "";
             }
@@ -79,13 +82,14 @@ public class RecommendAgent : Agent
         flagVisited = new int[flagCount];
         flagpos = new Vector3[flagCount];
         curdest = -1;
+        setRandomPosition();
 
     }
 
     public override void OnEpisodeBegin()
     {
         rew = 0;
-        setRandomPosition();
+        
         if (curdest > -1)
             candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
         curdest = -1;

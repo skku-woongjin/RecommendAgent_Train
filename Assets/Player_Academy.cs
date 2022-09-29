@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 
-public class Player_Academy : Academy
+public class Player_Academy : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
