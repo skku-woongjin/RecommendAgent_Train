@@ -39,7 +39,6 @@ public class TrailEnergyDecrease : MonoBehaviour
             //다 증발했으면 없애기 
             if (child.GetComponent<TrailPoint>().energy <= 0)
             {
-                Debug.Log("Destroy");
                 Destroy(child.gameObject);
             }
             else//색 효과 

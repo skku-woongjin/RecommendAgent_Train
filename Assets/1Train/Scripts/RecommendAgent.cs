@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using System;
 using TMPro;
 using MBaske.Sensors.Grid;
@@ -34,17 +35,15 @@ public class RecommendAgent : Agent
     public GridBuffer flagGrid;
     public GridBuffer trailGrid;
 
-    public GridSensorComponent flagGridComp;
-    public GridSensorComponent trailGridComp;
+    public MBaske.Sensors.Grid.GridSensorComponent trailGridComp;
     public int cellSize;
     public int worldSize;
-    public int numOfFlags;
 
     public Vector3[] flagpos;
 
     void setRandomPosition()
     {
-        flagGrid.ClearChannel(0);
+        // flagGrid.ClearChannel(0);
         for (int i = 0; i < flagCount; i++)
         {
             flagpos[i] = new Vector3(UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2), 0, UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2));
@@ -56,26 +55,36 @@ public class RecommendAgent : Agent
         foreach (Transform child in candidates)
         {
             child.transform.localPosition = flagpos[j];
-            GetComponent<RecommendAgent>().flagGrid.Write(0, Convert.ToInt32((child.localPosition.x + 50) / cellSize), Convert.ToInt32((child.localPosition.z + 50) / cellSize), 1);
+            // GetComponent<RecommendAgent>().flagGrid.Write(0, Convert.ToInt32((child.localPosition.x + 50) / cellSize), Convert.ToInt32((child.localPosition.z + 50) / cellSize), 1);
             j++;
         }
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        for (int i = 0; i < flagpos.Length; i++)
+        {
+            sensor.AddObservation(new Vector3(flagpos[i].x, flagVisited[i], flagpos[i].z));
+        }
+        sensor.AddObservation(new Vector2(owner.localPosition.x, owner.localPosition.z));
     }
 
     public override void Initialize()
     {
         if (candidates.childCount == 0)
         {
-            flagCount =(int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset",numOfFlags));
+            flagCount = 8;
+            // flagCount = (int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset", numOfFlags));
             for (int i = 0; i < flagCount; i++)
             {
-                
+
                 GameObject tmp = Instantiate(flagPrefab, candidates);
                 tmp.GetComponentInChildren<TMP_Text>().text = i + "";
             }
         }
 
-        flagGrid = new ColorGridBuffer(1, worldSize / cellSize, worldSize / cellSize);
-        flagGridComp.GridBuffer = flagGrid;
+        // flagGrid = new ColorGridBuffer(1, worldSize / cellSize, worldSize / cellSize);
+        // flagGridComp.GridBuffer = flagGrid;
         trailGrid = new ColorGridBuffer(1, worldSize / cellSize, worldSize / cellSize);
         trailGridComp.GridBuffer = trailGrid;
         destQ = new Queue<int>();
@@ -88,8 +97,9 @@ public class RecommendAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+
         rew = 0;
-        
+
         if (curdest > -1)
             candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
         curdest = -1;
@@ -97,15 +107,15 @@ public class RecommendAgent : Agent
         {
             Destroy(child.gameObject);
         }
-        owner.localPosition = new Vector3(0, 0, 0);
         destQ.Clear();
         Array.Clear(flagVisited, 0, flagVisited.Length);
         destQfilled = 0;
         going = false;
         curep = 0;
-        owner.GetComponent<OwnerController>().goTo(-1);
+        owner.GetComponent<TrailGenerator>().goTo(-1);
         if (warp)
-            owner.GetComponent<OwnerController>().randomWarp(UnityEngine.Random.Range(15, destQSize - 1));
+            owner.GetComponent<TrailGenerator>().randomWarp(UnityEngine.Random.Range(15, destQSize - 1));
+        owner.localPosition = new Vector3(UnityEngine.Random.Range(-50, 50), 0, UnityEngine.Random.Range(-50, 50));
         RequestDecision();
 
     }
@@ -133,6 +143,13 @@ public class RecommendAgent : Agent
 
     public bool showResult;
     public float showTime;
+
+    float maxdist = 100 * Mathf.Sqrt(2);
+    float thresh_dist = 50f;
+    float thresh_dist_p = 0.6f;
+    float maxcount;
+    float thresh_count = 3;
+    float thresh_count_p = 0.5f;
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         var action = actionBuffers.DiscreteActions[0];
@@ -142,16 +159,42 @@ public class RecommendAgent : Agent
 
             curdest = action;
             if (!warp)
-                owner.GetComponent<OwnerController>().goTo(action);
+                owner.GetComponent<TrailGenerator>().goTo(action);
             candidates.GetChild(action).GetComponent<FlagColor>().red();
 
-            float g = destQSize / flagCount;
+            maxcount = destQSize;
+            float g = flagCount / destQSize;
+            float dist = Vector3.Distance(owner.localPosition, flagpos[action]);
+            float count = flagVisited[action];
 
-            rew += 1 - flagVisited[action] / g;
-            AddReward(1 - flagVisited[action] / g);
+            float p_dist;
+            if (dist > thresh_dist)
+            {
+                p_dist = -(thresh_dist_p / (maxdist - thresh_dist)) * dist +
+                 +(thresh_dist_p / (maxdist - thresh_dist)) * maxdist;
+            }
+            else
+            {
+                p_dist = -((1 - thresh_dist_p) / thresh_dist) * dist + 1;
+            }
+            float p_count;
+            if (count > thresh_count)
+            {
+                p_count = -(thresh_count_p / (maxcount - thresh_count)) * count +
+                 +(thresh_count_p / (maxcount - thresh_count)) * maxcount;
+            }
+            else
+            {
+                p_count = -((1 - thresh_count_p) / thresh_count) * count + 1;
+            }
+            rew = (p_dist * p_count);
+            AddReward(rew);
 
             if (debugReward)
-                Debug.Log("id: " + action + "\n #visited: " + flagVisited[action] + " reward: " + (1 - flagVisited[action] / g));
+            {
+                Debug.Log("id: " + action + "\n #visited: " + flagVisited[action] + " distance: " + dist + " reward: " + (rew));
+                Debug.Log("p_dist: " + p_dist + " p_count: " + p_count);
+            }
 
             if (warp)
             {
