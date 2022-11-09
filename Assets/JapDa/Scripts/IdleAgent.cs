@@ -55,7 +55,7 @@ public class IdleAgent : Agent
         rend = gameObject.GetComponentInChildren<Renderer>();
         Physics.IgnoreCollision(GetComponent<Collider>(), owner.GetComponent<Collider>());
     }
-    public OwnerController ownerController;
+    public TrailGenerator ownerController;
     IEnumerator ChangeDir;
     IEnumerator miauCouroutine;
     public override void OnEpisodeBegin()
