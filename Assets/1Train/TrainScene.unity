@@ -1261,22 +1261,18 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 100000
-  trivariate: 1
-  getMean: 1
   logLen: 20
-  autoHeuristic: 1
   debugReward: 1
+  showResult: 1
+  showTime: 2
   warp: 1
   candidates: {fileID: 635198371}
-  curdest: -1
   flagPrefab: {fileID: 7985525626067312151, guid: 13f66594be81c44ddbbc223c2d42cba3,
     type: 3}
   owner: {fileID: 1651925914}
   trails: {fileID: 2011330346}
   flagCount: 8
   destQSize: 24
-  epLength: 100
-  cellSize: 1
   worldSize: 100
   dotPrefab: {fileID: 7320658809133594946, guid: b3fae50cd00084f23abf7af6ac7da080,
     type: 3}
@@ -1285,9 +1281,6 @@ MonoBehaviour:
   answerDotPrefab: {fileID: 7320658809133594946, guid: 3d2835c946786438fb595b18ac37a17d,
     type: 3}
   graph: {fileID: 171399554}
-  showResult: 1
-  showTime: 2
-  rew: 0
 --- !u!114 &1651925904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,18 +1447,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &1827822814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190492439552908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!850595691 &1898999952
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1675,7 +1656,6 @@ GameObject:
   - component: {fileID: 33640192424887138}
   - component: {fileID: 23637226526561768}
   - component: {fileID: 65153929921532212}
-  - component: {fileID: 1827822814}
   m_Layer: 0
   m_Name: Court
   m_TagString: ground
