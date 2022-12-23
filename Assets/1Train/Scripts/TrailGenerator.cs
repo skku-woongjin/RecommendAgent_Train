@@ -26,7 +26,7 @@ public class TrailGenerator : MonoBehaviour
         }
         else
         {
-            Vector3 pos = agent.flagpos[id] + agent.transform.position;
+            Vector3 pos = agent.flags[id].pos + agent.transform.position;
             makeTrace(5);
             if (!agent.warp)
                 nav.SetDestination(pos);

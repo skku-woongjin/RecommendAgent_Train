@@ -10,64 +10,75 @@ using MBaske.Sensors.Grid;
 using Unity.MLAgents.Policies;
 using System.Linq;
 
+public class Flag
+{
+    public Vector3 pos = new Vector3(0, 0, 0);
+    public int visited = 0;
+    public float time = 0;
+}
+
 public class RecommendAgent : Agent
 {
-    public bool autoHeuristic;
+
+    public int logLen = 20;
     public bool debugReward;
+    public bool showResult;
+    public float showTime;
     public bool warp;
     public Transform candidates;
-    public int curdest = -1;
-
+    int curdest = -1;
     public GameObject flagPrefab;
     public Transform owner;
     public Transform trails;
 
+    [HideInInspector]
+    public Flag[] flags;
     public int flagCount;
     public int destQSize;
     int destQfilled;
     Queue<int> destQ;
-    int[] flagVisited;
-    bool going = false;
 
-    public int epLength;
+    bool going = false;
     int curep;
 
-    public GridBuffer flagGrid;
-    public GridBuffer trailGrid;
-
-    public MBaske.Sensors.Grid.GridSensorComponent trailGridComp;
-    public int cellSize;
     public int worldSize;
 
-    public Vector3[] flagpos;
+    Vector3 userMean3;
+    Vector3[] userLog3;
+
+    double rew;
 
     void setRandomPosition()
     {
-        // flagGrid.ClearChannel(0);
         for (int i = 0; i < flagCount; i++)
         {
-            flagpos[i] = new Vector3(UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2), 0, UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2));
+            flags[i].pos = new Vector3(UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2), 0, UnityEngine.Random.Range(-worldSize / 2 + 2, worldSize / 2 - 2));
         }
 
-        flagpos = flagpos.OrderBy(v => -v.z).ThenBy(v => v.x).ToArray<Vector3>();
+        flags = flags.OrderBy(v => -v.pos.z).ThenBy(v => v.pos.x).ToArray<Flag>();
 
         int j = 0;
         foreach (Transform child in candidates)
         {
-            child.transform.localPosition = flagpos[j];
-            // GetComponent<RecommendAgent>().flagGrid.Write(0, Convert.ToInt32((child.localPosition.x + 50) / cellSize), Convert.ToInt32((child.localPosition.z + 50) / cellSize), 1);
+            child.transform.localPosition = flags[j].pos;
             j++;
         }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        for (int i = 0; i < flagpos.Length; i++)
-        {
-            sensor.AddObservation(new Vector3(flagpos[i].x, flagVisited[i], flagpos[i].z));
-        }
-        sensor.AddObservation(new Vector2(owner.localPosition.x, owner.localPosition.z));
+        foreach (Vector3 vec in userLog3)
+            sensor.AddObservation(vec);
     }
+
+
+
+    float maxGaus = 0;
+
+    public GameObject dotPrefab;
+    public GameObject agenDotPrefab;
+    public GameObject answerDotPrefab;
+    public Transform graph;
 
     public override void Initialize()
     {
@@ -77,19 +88,31 @@ public class RecommendAgent : Agent
             // flagCount = (int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset", numOfFlags));
             for (int i = 0; i < flagCount; i++)
             {
-
                 GameObject tmp = Instantiate(flagPrefab, candidates);
                 tmp.GetComponentInChildren<TMP_Text>().text = i + "";
             }
         }
 
-        // flagGrid = new ColorGridBuffer(1, worldSize / cellSize, worldSize / cellSize);
-        // flagGridComp.GridBuffer = flagGrid;
-        trailGrid = new ColorGridBuffer(1, worldSize / cellSize, worldSize / cellSize);
-        trailGridComp.GridBuffer = trailGrid;
+        if (graph.childCount == 0)
+        {
+            Instantiate(answerDotPrefab, graph);
+            Instantiate(agenDotPrefab, graph);
+
+            for (int i = 0; i < logLen; i++)
+            {
+                Instantiate(dotPrefab, graph);
+            }
+        }
+        maxcount = destQSize;
+
         destQ = new Queue<int>();
-        flagVisited = new int[flagCount];
-        flagpos = new Vector3[flagCount];
+        userLog3 = new Vector3[logLen];
+        flags = new Flag[flagCount];
+        for (int i = 0; i < flagCount; i++)
+        {
+            flags[i] = new Flag();
+        }
+
         curdest = -1;
         setRandomPosition();
 
@@ -97,7 +120,7 @@ public class RecommendAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-
+        setRandomPosition();
         rew = 0;
 
         if (curdest > -1)
@@ -108,16 +131,55 @@ public class RecommendAgent : Agent
             Destroy(child.gameObject);
         }
         destQ.Clear();
-        Array.Clear(flagVisited, 0, flagVisited.Length);
+        foreach (Flag flag in flags)
+        {
+            flag.visited = 0;
+        }
+
         destQfilled = 0;
         going = false;
         curep = 0;
         owner.GetComponent<TrailGenerator>().goTo(-1);
+        //방문횟수 생성
         if (warp)
             owner.GetComponent<TrailGenerator>().randomWarp(UnityEngine.Random.Range(15, destQSize - 1));
+        //유저 위치 랜덤 생성
         owner.localPosition = new Vector3(UnityEngine.Random.Range(-50, 50), 0, UnityEngine.Random.Range(-50, 50));
+
+        //평균 방문 시간 생성
+        foreach (Flag flag in flags)
+        {
+            flag.time = UnityEngine.Random.Range(0, maxdist);
+        }
+
+        //NOTE 유저 확률분포 랜덤 생성
+        userMean3 = new Vector3(UnityEngine.Random.Range(0, maxcount), UnityEngine.Random.Range(0, maxdist), UnityEngine.Random.Range(0, maxdist));
+        maxGaus = (float)GetTrivariateGuassian(userMean3.x, 5, userMean3.y, 10 * maxdist / maxcount, userMean3.z, 10 * maxdist / maxcount, userMean3.x, userMean3.y, userMean3.z);
+
+        //유저 로그 생성 
+        generateLog();
+        updateFlagUI();
         RequestDecision();
 
+    }
+
+    void generateLog()
+    {
+        int count = 0;
+        float dist;
+        int visited;
+        float time;
+        while (count < logLen)
+        {
+            dist = UnityEngine.Random.Range(0, maxdist);
+            visited = UnityEngine.Random.Range(0, (int)maxcount + 1);
+            time = UnityEngine.Random.Range(0, maxdist);
+            if (UnityEngine.Random.Range(0, 1.0f) < (float)GetTrivariateGuassian(userMean3.x, 5, userMean3.y, 10 * maxdist / maxcount, userMean3.z, 10 * maxdist / maxcount, visited, dist, time) / (maxGaus * 2))
+            {
+                userLog3[count] = new Vector3(dist / maxdist, (float)visited / maxcount, time / maxdist);
+                count++;
+            }
+        }
     }
 
     public void updateFlags(int dest)
@@ -126,148 +188,67 @@ public class RecommendAgent : Agent
         {
             if (destQfilled == destQSize)
             {
-                flagVisited[destQ.Dequeue()]--;
+                flags[destQ.Dequeue()].visited--;
                 destQfilled--;
             }
 
             destQ.Enqueue(dest);
             destQfilled++;
-            flagVisited[dest]++;
+            flags[dest].visited++;
         }
+        updateFlagUI();
 
+    }
+
+    public void updateFlagUI()
+    {
         for (int i = 0; i < candidates.childCount; i++)
         {
-            candidates.GetChild(i).GetChild(2).GetChild(1).GetComponent<TMP_Text>().text = flagVisited[i] + "";
+            candidates.GetChild(i).GetChild(2).GetChild(1).GetComponent<TMP_Text>().text = flags[i].visited + "";
+            candidates.GetChild(i).GetChild(2).GetChild(2).GetComponent<TMP_Text>().text = flags[i].time + "";
         }
     }
 
-    public bool showResult;
-    public float showTime;
+
 
     float maxdist = 100 * Mathf.Sqrt(2);
-    float thresh_dist = 50f;
-    float thresh_dist_p = 0.6f;
+
     float maxcount;
-    float thresh_count = 3;
-    float thresh_count_p = 0.5f;
+    float thresh_count = 6;
+
+    public static double GetTrivariateGuassian(double muX, double sigmaX, double muY, double sigmaY, double muZ, double sigmaZ, double x, double y, double z)
+    {
+        var dX = x - muX;
+        var dY = y - muY;
+        var dZ = z - muZ;
+
+        var exponent = Math.Pow(dX, 2) * sigmaY * sigmaZ + Math.Pow(dY, 2) * sigmaX * sigmaZ + Math.Pow(dZ, 2) * sigmaX * sigmaY;
+        exponent *= (-1 / (2 * sigmaX * sigmaY * sigmaZ));
+        var normaliser = Math.Pow(2 * Math.PI, 1.5) * Math.Sqrt(sigmaX * sigmaY * sigmaZ);
+
+        return Math.Exp(exponent) / normaliser;
+    }
+
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        var action = actionBuffers.DiscreteActions[0];
-        if (action != -1 && action < candidates.childCount)
-        {
-            going = true;
+        var count = (actionBuffers.ContinuousActions[0] + 1) / 2 * maxcount;
+        var dist = (actionBuffers.ContinuousActions[1] + 1) / 2 * maxdist;
+        var time = (actionBuffers.ContinuousActions[2] + 1) / 2 * maxdist;
 
-            curdest = action;
-            if (!warp)
-                owner.GetComponent<TrailGenerator>().goTo(action);
-            candidates.GetChild(action).GetComponent<FlagColor>().red();
+        rew = Math.Sqrt(Math.Pow(userMean3.x - count, 2) + Math.Pow(userMean3.y - dist, 2) + Math.Pow(userMean3.z - time, 2)) / Math.Sqrt(Math.Pow(maxcount, 2) + Math.Pow(maxdist, 2) + Math.Pow(maxdist, 2));
+        rew = 1 - rew;
 
-            maxcount = destQSize;
-            float g = flagCount / destQSize;
-            float dist = Vector3.Distance(owner.localPosition, flagpos[action]);
-            float count = flagVisited[action];
+        if (debugReward)
+            Debug.Log("rew: " + rew);
 
-            float p_dist;
-            if (dist > thresh_dist)
-            {
-                p_dist = -(thresh_dist_p / (maxdist - thresh_dist)) * dist +
-                 +(thresh_dist_p / (maxdist - thresh_dist)) * maxdist;
-            }
-            else
-            {
-                p_dist = -((1 - thresh_dist_p) / thresh_dist) * dist + 1;
-            }
-            float p_count;
-            if (count > thresh_count)
-            {
-                p_count = -(thresh_count_p / (maxcount - thresh_count)) * count +
-                 +(thresh_count_p / (maxcount - thresh_count)) * maxcount;
-            }
-            else
-            {
-                p_count = -((1 - thresh_count_p) / thresh_count) * count + 1;
-            }
-            rew = (p_dist * p_count);
-            AddReward(rew);
 
-            if (debugReward)
-            {
-                Debug.Log("id: " + action + "\n #visited: " + flagVisited[action] + " distance: " + dist + " reward: " + (rew));
-                Debug.Log("p_dist: " + p_dist + " p_count: " + p_count);
-            }
+        AddReward((float)rew);
 
-            if (warp)
-            {
-                if (showResult)
-                    Invoke("EndEpisode", showTime);
-                else
-                    EndEpisode();
-                return;
-            }
-            curep++;
-            if (curep == epLength)
-                EndEpisode();
-        }
+        if (showResult)
+            Invoke("EndEpisode", showTime);
         else
-        {
-            Debug.Log(action);
-        }
+            EndEpisode();
 
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        if (!autoHeuristic)
-        {
-
-            if (Input.GetKey(KeyCode.Alpha0)) { discreteActionsOut[0] = 0; }
-            else if (Input.GetKey(KeyCode.Alpha1)) discreteActionsOut[0] = 1;
-            else if (Input.GetKey(KeyCode.Alpha2)) discreteActionsOut[0] = 2;
-            else if (Input.GetKey(KeyCode.Alpha3)) discreteActionsOut[0] = 3;
-            else if (Input.GetKey(KeyCode.Alpha4)) discreteActionsOut[0] = 4;
-            else if (Input.GetKey(KeyCode.Alpha5)) discreteActionsOut[0] = 5;
-            else if (Input.GetKey(KeyCode.Alpha6)) discreteActionsOut[0] = 6;
-            else if (Input.GetKey(KeyCode.Alpha7)) discreteActionsOut[0] = 7;
-            else if (Input.GetKey(KeyCode.Alpha8)) discreteActionsOut[0] = 8;
-            else if (Input.GetKey(KeyCode.Alpha9)) discreteActionsOut[0] = 9;
-            else if (Input.GetKey(KeyCode.Q)) discreteActionsOut[0] = 10;
-            else if (Input.GetKey(KeyCode.W)) discreteActionsOut[0] = 11;
-            else if (Input.GetKey(KeyCode.E)) discreteActionsOut[0] = 12;
-            else if (Input.GetKey(KeyCode.R)) discreteActionsOut[0] = 13;
-            else if (Input.GetKey(KeyCode.T)) discreteActionsOut[0] = 14;
-            else if (Input.GetKey(KeyCode.Y)) discreteActionsOut[0] = 15;
-            else if (Input.GetKey(KeyCode.U)) discreteActionsOut[0] = 16;
-            else if (Input.GetKey(KeyCode.I)) discreteActionsOut[0] = 17;
-            else if (Input.GetKey(KeyCode.O)) discreteActionsOut[0] = 18;
-            else if (Input.GetKey(KeyCode.P)) discreteActionsOut[0] = 19;
-            else if (Input.GetKey(KeyCode.A)) discreteActionsOut[0] = 20;
-            else discreteActionsOut[0] = -1;
-        }
-        else
-        {
-            int min = 1000;
-            int action = -1;
-            for (int i = 0; i < flagCount; i++)
-            {
-                if (flagVisited[i] < min)
-                {
-                    action = i;
-                    min = flagVisited[i];
-                }
-            }
-            discreteActionsOut[0] = action;
-        }
-    }
-    public float rew;
-    void FixedUpdate()
-    {
-        if (!warp && going && curdest >= 0 && Vector3.SqrMagnitude(candidates.GetChild(curdest).position - owner.position) < 10)
-        {
-            candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
-            going = false;
-            curdest = -1;
-            RequestDecision();
-        }
-    }
 }
