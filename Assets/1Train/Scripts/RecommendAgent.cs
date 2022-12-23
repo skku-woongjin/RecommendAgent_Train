@@ -6,7 +6,6 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using System;
 using TMPro;
-using MBaske.Sensors.Grid;
 using Unity.MLAgents.Policies;
 using System.Linq;
 
@@ -26,7 +25,7 @@ public class RecommendAgent : Agent
     public float showTime;
     public bool warp;
     public Transform candidates;
-    int curdest = -1;
+
     public GameObject flagPrefab;
     public Transform owner;
     public Transform trails;
@@ -82,7 +81,7 @@ public class RecommendAgent : Agent
         if (candidates.childCount == 0)
         {
             flagCount = 8;
-            // flagCount = (int)(Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset", numOfFlags));
+
             for (int i = 0; i < flagCount; i++)
             {
                 GameObject tmp = Instantiate(flagPrefab, candidates);
@@ -110,7 +109,7 @@ public class RecommendAgent : Agent
             flags[i] = new Flag();
         }
 
-        curdest = -1;
+
         setRandomPosition();
 
     }
@@ -120,9 +119,7 @@ public class RecommendAgent : Agent
         setRandomPosition();
         rew = 0;
 
-        if (curdest > -1)
-            candidates.GetChild(curdest).GetComponent<FlagColor>().yellow();
-        curdest = -1;
+
         foreach (Transform child in trails)
         {
             Destroy(child.gameObject);
