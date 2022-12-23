@@ -340,7 +340,7 @@ public class IdleAgent : Agent
     {
         if (interested)
             endInterest();
-        start = true;
+
         nav.enabled = true;
         NavMeshHit hit;
         NavMesh.SamplePosition(GameManager.Instance.curGroup.GetComponent<Collider>().ClosestPoint(transform.position), out hit, 100, 1);
@@ -397,7 +397,6 @@ public class IdleAgent : Agent
     public GameObject QuoteCanv;
     public void say()
     {
-        start = true;
         nav.enabled = false;
         interested = false;
         stopStart();
@@ -514,7 +513,6 @@ public class IdleAgent : Agent
     //NOTE update
     #region update
 
-    bool start = false;
     void FixedUpdate()
     {
         // if (start)

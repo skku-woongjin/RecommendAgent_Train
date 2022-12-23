@@ -38,9 +38,6 @@ public class RecommendAgent : Agent
     int destQfilled;
     Queue<int> destQ;
 
-    bool going = false;
-    int curep;
-
     public int worldSize;
 
     Vector3 userMean3;
@@ -137,8 +134,7 @@ public class RecommendAgent : Agent
         }
 
         destQfilled = 0;
-        going = false;
-        curep = 0;
+
         owner.GetComponent<TrailGenerator>().goTo(-1);
         //방문횟수 생성
         if (warp)
@@ -214,7 +210,7 @@ public class RecommendAgent : Agent
     float maxdist = 100 * Mathf.Sqrt(2);
 
     float maxcount;
-    float thresh_count = 6;
+
 
     public static double GetTrivariateGuassian(double muX, double sigmaX, double muY, double sigmaY, double muZ, double sigmaZ, double x, double y, double z)
     {
