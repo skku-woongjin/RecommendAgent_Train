@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 88b9ae7af2c1748a0a1f63407587a601, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,22 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3f45d412b664a009402e7b3e8cb087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Shape:
-    m_ScanResultsByLOD:
-    - LocalPoints:
-      - {x: 0, y: 0, z: 0}
-    m_LocalPoints:
-    - {x: 0, y: 0, z: 0}
-    m_WorldPoints: []
-    m_MergeDisconnected: 1
-    m_Flatten: 1
-    m_MaxLOD: 0
-    m_SelectedLOD: 0
-    m_ScanLOD: 0
-    m_GizmoLOD: 0
-    m_Projection: 0
-    m_PointCount: 1
-    m_DrawGrid: 0
   energy: 1
 --- !u!135 &2614841577573430256
 SphereCollider:

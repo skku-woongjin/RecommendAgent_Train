@@ -384,7 +384,6 @@ GameObject:
   - component: {fileID: 7985525624762231843}
   - component: {fileID: 7985525624762231854}
   - component: {fileID: 7985525624762231853}
-  - component: {fileID: 1573580460}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: target
@@ -457,18 +456,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1573580460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985525624762231842}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7985525624880461341
 GameObject:
   m_ObjectHideFlags: 0

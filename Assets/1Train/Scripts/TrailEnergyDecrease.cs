@@ -30,9 +30,6 @@ public class TrailEnergyDecrease : MonoBehaviour
             normx = Convert.ToInt32((child.localPosition.x + 50) / gridsize);
             normy = Convert.ToInt32((child.localPosition.z + 50) / gridsize);
 
-            //grid에 적기
-            // if (normx < 100 / gridsize && normy < 100 / gridsize && normx >= 0 / gridsize && normy >= 0 / gridsize)
-            //     m_SensorBuffer.Write(0, normx, normy, m_SensorBuffer.Read(0, normx, normy) + child.GetComponent<TrailPoint>().energy / normFactor);
             //에너지 감소 
             child.GetComponent<TrailPoint>().energy -= decreaseRate;
             //다 증발했으면 없애기 
