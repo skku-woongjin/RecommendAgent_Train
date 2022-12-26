@@ -1,4 +1,4 @@
-# Recommend Agent Demo Project
+# Recommend Agent Training Project
 
 > 장소 추천 모델(Recommend Agent)을 훈련할 수 있는 유니티 프로젝트입니다. <br/>
 
