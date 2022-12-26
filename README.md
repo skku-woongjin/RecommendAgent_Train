@@ -24,7 +24,7 @@
     - [0,1]로 정규화된 값이므로, 특성치의 max값을 곱하여 실제 특성치를 계산합니다. 
   - **Reward**: 1- (예측값과 정답의 유클리드 거리)/(정규화)
 - **Environment**: [ml-agents](https://github.com/Unity-Technologies/ml-agents) 패키지를 이용하여 유니티 프로젝트 환경에서 훈련합니다. 
-- **policy**: ml-agents에서 제공하는 [PPO policy](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Training-PPO.md)로 훈련합니다. 
+- **Policy**: ml-agents에서 제공하는 [PPO policy](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Training-PPO.md)로 훈련합니다. 
 
 <br />
 
@@ -103,8 +103,8 @@ mlagents-learn Recommend.yaml --no-graphics --env=LinuxMono_Getmean/RecEnv  --ru
 - [Assets/Demo](링크) : Demo Scene 을 구성하는 Asset 모음
 - [Assets/Demo/Materials](링크) : 3D 오브젝트에 씌울 Material 모음
 - [Assets/Demo/Models](링크)
-  - **getmean_tri.onnx**: 훈련된 모델
-  - **Recommend.yaml**: 훈련 configuration file
+  - getmean_tri.onnx: 훈련된 모델
+  - Recommend.yaml: 훈련 configuration file
 - [Assets/Demo/Scripts](링크) : C# 스크립트 모음
 
 ## Components
