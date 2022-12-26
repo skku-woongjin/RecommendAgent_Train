@@ -116,7 +116,6 @@ mlagents-learn Recommend.yaml --no-graphics --env=LinuxMono_Getmean/RecEnv  --ru
   - State, Action, Reward의 정의
   - 정규분포에 따라 유저 로그 생성
   - 장소 배치, 유저 이동 처리(시각적 표현)
-  <br />
 - **[TrailEnergyDecrease.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailEnergyDecrease.cs),[TrailGenerator.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailGenerator.cs),[TrailPoint.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailPoint.cs)** 
   - 유저 이동 시 나타나는 발자취 처리
   - 이해를 돕기 위한 시각적 표현이며, 훈련 과정에는 영향을 미치지 않습니다.
