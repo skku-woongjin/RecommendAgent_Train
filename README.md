@@ -65,7 +65,7 @@ mlagents-learn Recommend.yaml --no-graphics --env=LinuxMono_Getmean/RecEnv  --ru
 [INFO] Exported [모델 경로]
 ```
 - [ml-agents github](https://github.com/Unity-Technologies/ml-agents/blob/develop/docs/Training-ML-Agents.md)에 ml-agents훈련에 관한 더 많은 정보가 있습니다. 
-- 모델 활용 예시는 [RecommendAgent-Demo]() 또는 [WJ-Combined]() 유니티 프로젝트에서 볼 수 있습니다. 
+- 모델 활용 예시는 [RecommendAgent-Demo](https://github.com/skku-woongjin/RecommendAgent_Demo) 또는 [WJ-Combined](https://github.com/skku-woongjin/WJ_Combined) 유니티 프로젝트에서 볼 수 있습니다. 
 
 
 ## 파일 구조
@@ -100,24 +100,24 @@ mlagents-learn Recommend.yaml --no-graphics --env=LinuxMono_Getmean/RecEnv  --ru
 
 <br />
 
-- [Assets/Demo](링크) : Demo Scene 을 구성하는 Asset 모음
-- [Assets/Demo/Materials](링크) : 3D 오브젝트에 씌울 Material 모음
-- [Assets/Demo/Models](링크)
+- [Assets/Train](https://github.com/skku-woongjin/RecommendAgent_Train/tree/master/Assets/Train) : Demo Scene 을 구성하는 Asset 모음
+- [Assets/Train/Materials](https://github.com/skku-woongjin/RecommendAgent_Train/tree/master/Assets/Train/Materials) : 3D 오브젝트에 씌울 Material 모음
+- [Assets/Train/Models](https://github.com/skku-woongjin/RecommendAgent_Train/tree/master/Assets/Train/Models)
   - getmean_tri.onnx: 훈련된 모델
   - Recommend.yaml: 훈련 configuration file
-- [Assets/Demo/Scripts](링크) : C# 스크립트 모음
+- [Assets/Train/Scripts](https://github.com/skku-woongjin/RecommendAgent_Train/tree/master/Assets/Train/Scripts) : C# 스크립트 모음
 
 ## Components
 
-- **[ModelOverrider.cs]()** 
+- **[ModelOverrider.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/ModelOverrider.cs)** 
   - 모델 훈련 및 실행에 필요한 ML-Agents 컴포넌트
     <br />
-- **[RecommendAgent.cs]()** 
+- **[RecommendAgent.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/RecommendAgent.cs)** 
   - State, Action, Reward의 정의
   - 정규분포에 따라 유저 로그 생성
   - 장소 배치, 유저 이동 처리(시각적 표현)
   <br />
-- **[TrailEnergyDecrease.cs](),[TrailGenerator.cs](),[TrailPoint.cs]()** 
+- **[TrailEnergyDecrease.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailEnergyDecrease.cs),[TrailGenerator.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailGenerator.cs),[TrailPoint.cs](https://github.com/skku-woongjin/RecommendAgent_Train/blob/master/Assets/Train/Scripts/TrailPoint.cs)** 
   - 유저 이동 시 나타나는 발자취 처리
   - 이해를 돕기 위한 시각적 표현이며, 훈련 과정에는 영향을 미치지 않습니다.
   <br />
